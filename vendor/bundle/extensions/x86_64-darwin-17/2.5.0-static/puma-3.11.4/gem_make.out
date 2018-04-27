@@ -1,0 +1,21 @@
+current directory: /Users/iwai/Applications/app_core/core/vendor/bundle/gems/puma-3.11.4/ext/puma_http11
+/Users/iwai/.rbenv/versions/2.5.1/bin/ruby -r ./siteconf20180427-73834-1wg5zbv.rb extconf.rb
+checking for BIO_read() in -lcrypto... yes
+checking for SSL_CTX_new() in -lssl... yes
+checking for openssl/bio.h... yes
+creating Makefile
+
+current directory: /Users/iwai/Applications/app_core/core/vendor/bundle/gems/puma-3.11.4/ext/puma_http11
+make "DESTDIR=" clean
+
+current directory: /Users/iwai/Applications/app_core/core/vendor/bundle/gems/puma-3.11.4/ext/puma_http11
+make "DESTDIR="
+compiling http11_parser.c
+compiling io_buffer.c
+compiling mini_ssl.c
+compiling puma_http11.c
+linking shared-object puma/puma_http11.bundle
+
+current directory: /Users/iwai/Applications/app_core/core/vendor/bundle/gems/puma-3.11.4/ext/puma_http11
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 puma_http11.bundle ./.gem.20180427-73834-172u3z3/puma

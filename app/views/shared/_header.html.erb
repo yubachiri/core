@@ -1,0 +1,15 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <ul id="logo" class="nav navbar-nav navbar-left top-nav">
+    <li><%= link_to 'Core', root_path %></li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right top-nav">
+    <% if user_signed_in? %>
+      <li><strong><%= link_to current_user.name, '#' %></strong></li>
+      <li><%= link_to 'プロフィール変更', edit_user_registration_path %></li>
+      <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
+    <% else %>
+      <li><%= link_to '新規登録', new_user_registration_path %></li>
+      <li><%= link_to 'ログイン', new_user_session_path %></li>
+    <% end %>
+  </ul>
+</nav>

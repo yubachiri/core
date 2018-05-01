@@ -1,0 +1,52 @@
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  margin-top: 50px;
+}
+
+#wrapper {
+  padding-left: 0;
+}
+
+#page-wrapper {
+  width: 100%;
+  background-color: white;
+}
+
+/* ヘッダ内容 */
+nav {
+
+  #logo {
+    font-size: 2em;
+    padding-left: 2%;
+  }
+
+  .navbar-right {
+    padding-right: 2%;
+  }
+}
+
+.top-nav > li {
+  display: inline-block;
+  float: left;
+}
+
+.top-nav > li > a {
+  padding-top: 20px;
+  padding-bottom: 0px;
+  line-height: 10px;
+  color: #fff;
+}
+
+.top-nav > .open > a,
+.top-nav > .open > a:focus,
+.top-nav > .open > a:hover,
+.top-nav > li > a:focus,
+.top-nav > li > a:hover {
+  color: #fff;
+  background-color: #1a242f;
+}

@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Core</title>
-    <%= render 'layouts/header' %>
-  </head>
+<head>
+  <title>Core</title>
+  <%= render 'layouts/header_info' %>
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+
+<div id="wrapper">
+  <%= render 'shared/header' %>
+  <div id="page-wrapper">
+    <div class="container-fluid">
+      <div class="row" id="main">
+        <div class="col-md-9 col col-md-offset-3">
+          <p class="notice"><%= notice %></p>
+          <p class="alert"><%= alert %></p>
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
 </html>

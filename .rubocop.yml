@@ -1,0 +1,11 @@
+# 日本語でのコメントを許可
+AsciiComments:
+  Enabled: false
+
+# クラスにコメントを残さない
+Documentation:
+  Enabled: false
+
+# FrozanStringLiteralCommentの警告を出ないようにする
+Style/FrozenStringLiteralComment:
+  Enabled: false

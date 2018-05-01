@@ -114,7 +114,7 @@ task default: :test
 
     def test_dummy_assets
       template "rails/javascripts.js",    "#{dummy_path}/app/assets/javascripts/application.js", force: true
-      template "rails/stylesheets.css",   "#{dummy_path}/app/assets/stylesheets/application.css", force: true
+      template "rails/stylesheets.css",   "#{dummy_path}/app/assets/stylesheets/application.scss", force: true
       template "rails/dummy_manifest.js", "#{dummy_path}/app/assets/config/manifest.js", force: true
     end
 
@@ -137,7 +137,7 @@ task default: :test
     def stylesheets
       if mountable?
         copy_file "rails/stylesheets.css",
-                  "app/assets/stylesheets/#{namespaced_name}/application.css"
+                  "app/assets/stylesheets/#{namespaced_name}/application.scss"
       elsif full?
         empty_directory_with_keep_file "app/assets/stylesheets/#{namespaced_name}"
       end

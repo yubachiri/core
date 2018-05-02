@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Logins", type: :feature, focus: true do
+RSpec.feature "Logins", type: :feature do
   scenario "ゲストは新規会員登録ができる" do
     visit root_path
     click_link '新規登録'
@@ -13,5 +13,13 @@ RSpec.feature "Logins", type: :feature, focus: true do
     }.to change(User, :count).by(1)
   end
 
-  scenario "アプリユーザはログインできる"
+  scenario "アプリユーザはログインできる", focus: true do
+    user = FactoryGirl.create(:user)
+    visit root_path
+    click_link 'ログイン'
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    click_button 'ログイン'
+    expect(find_link(user.name)).to be_present
+  end
 end

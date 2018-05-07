@@ -16,19 +16,19 @@ module ActionView
       #
       # When using this method, you list the cache dependency as the name of the cache, like so:
       #
-      #   <% cache project do %>
-      #     <b>All the topics on this project</b>
-      #     <%= render project.topics %>
+      #   <% cache projects do %>
+      #     <b>All the topics on this projects</b>
+      #     <%= render projects.topics %>
       #   <% end %>
       #
       # This approach will assume that when a new topic is added, you'll touch
-      # the project. The cache key generated from this call will be something like:
+      # the projects. The cache key generated from this call will be something like:
       #
       #   views/template/action.html.erb:7a1156131a6928cb0026877f8b749ac9/projects/123
       #         ^template path           ^template tree digest            ^class   ^id
       #
-      # This cache key is stable, but it's combined with a cache version derived from the project
-      # record. When the project updated_at is touched, the #cache_version changes, even
+      # This cache key is stable, but it's combined with a cache version derived from the projects
+      # record. When the projects updated_at is touched, the #cache_version changes, even
       # if the key stays stable. This means that unlike a traditional key-based cache expiration
       # approach, you won't be generating cache trash, unused keys, simply because the dependent
       # record is updated.
@@ -36,9 +36,9 @@ module ActionView
       # If your template cache depends on multiple sources (try to avoid this to keep things simple),
       # you can name all these dependencies as part of an array:
       #
-      #   <% cache [ project, current_user ] do %>
-      #     <b>All the topics on this project</b>
-      #     <%= render project.topics %>
+      #   <% cache [ projects, current_user ] do %>
+      #     <b>All the topics on this projects</b>
+      #     <%= render projects.topics %>
       #   <% end %>
       #
       # This will include both records as part of the cache key and updating either of them will
@@ -59,9 +59,9 @@ module ActionView
       #
       # The digestor can be bypassed by passing skip_digest: true as an option to the cache call:
       #
-      #   <% cache project, skip_digest: true do %>
-      #     <b>All the topics on this project</b>
-      #     <%= render project.topics %>
+      #   <% cache projects, skip_digest: true do %>
+      #     <b>All the topics on this projects</b>
+      #     <%= render projects.topics %>
       #   <% end %>
       #
       # ==== Implicit dependencies
@@ -84,24 +84,24 @@ module ActionView
       # Here are a few examples of things that can't be derived:
       #
       #   render group_of_attachments
-      #   render @project.documents.where(published: true).order('created_at')
+      #   render @projects.documents.where(published: true).order('created_at')
       #
       # You will have to rewrite those to the explicit form:
       #
       #   render partial: 'attachments/attachment', collection: group_of_attachments
-      #   render partial: 'documents/document', collection: @project.documents.where(published: true).order('created_at')
+      #   render partial: 'documents/document', collection: @projects.documents.where(published: true).order('created_at')
       #
       # === Explicit dependencies
       #
       # Sometimes you'll have template dependencies that can't be derived at all. This is typically
       # the case when you have template rendering that happens in helpers. Here's an example:
       #
-      #   <%= render_sortable_todolists @project.todolists %>
+      #   <%= render_sortable_todolists @projects.todolists %>
       #
       # You'll need to use a special comment format to call those out:
       #
       #   <%# Template Dependency: todolists/todolist %>
-      #   <%= render_sortable_todolists @project.todolists %>
+      #   <%= render_sortable_todolists @projects.todolists %>
       #
       # In some cases, like a single table inheritance setup, you might have
       # a bunch of explicit dependencies. Instead of writing every template out,
@@ -138,7 +138,7 @@ module ActionView
       #
       # For collections rendered such:
       #
-      #   <%= render partial: 'projects/project', collection: @projects, cached: true %>
+      #   <%= render partial: 'projects/projects', collection: @projects, cached: true %>
       #
       # The <tt>cached: true</tt> will make Action View's rendering read several templates
       # from cache at once instead of one call per template.
@@ -149,7 +149,7 @@ module ActionView
       # For instance if the template the collection renders is cached like:
       #
       #   # projects/_project.html.erb
-      #   <% cache project do %>
+      #   <% cache projects do %>
       #     <%# ... %>
       #   <% end %>
       #
@@ -159,7 +159,7 @@ module ActionView
       # If your collection cache depends on multiple sources (try to avoid this to keep things simple),
       # you can name all these dependencies as part of a block that returns an array:
       #
-      #   <%= render partial: 'projects/project', collection: @projects, cached: -> project { [ project, current_user ] } %>
+      #   <%= render partial: 'projects/projects', collection: @projects, cached: -> projects { [ projects, current_user ] } %>
       #
       # This will include both records as part of the cache key and updating either of them will
       # expire the cache.
@@ -176,9 +176,9 @@ module ActionView
 
       # Cache fragments of a view if +condition+ is true
       #
-      #   <% cache_if admin?, project do %>
-      #     <b>All the topics on this project</b>
-      #     <%= render project.topics %>
+      #   <% cache_if admin?, projects do %>
+      #     <b>All the topics on this projects</b>
+      #     <%= render projects.topics %>
       #   <% end %>
       def cache_if(condition, name = {}, options = {}, &block)
         if condition
@@ -192,9 +192,9 @@ module ActionView
 
       # Cache fragments of a view unless +condition+ is true
       #
-      #   <% cache_unless admin?, project do %>
-      #     <b>All the topics on this project</b>
-      #     <%= render project.topics %>
+      #   <% cache_unless admin?, projects do %>
+      #     <b>All the topics on this projects</b>
+      #     <%= render projects.topics %>
       #   <% end %>
       def cache_unless(condition, name = {}, options = {}, &block)
         cache_if !condition, name, options, &block

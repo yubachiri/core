@@ -18,9 +18,10 @@ gem 'font-awesome-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
-# Devise
+# 認証系
 gem 'devise'
 gem 'devise-bootstrap-views'
+gem "pundit"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -46,6 +47,7 @@ group :test do
   gem 'launchy', '~> 2.4.3'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
+  gem "shoulda-matchers"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

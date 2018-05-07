@@ -942,9 +942,9 @@ module ActionView
       #
       #   <%= form_for @person do |person_form| %>
       #     ...
-      #     <% @person.projects.each do |project| %>
-      #       <% if project.active? %>
-      #         <%= person_form.fields_for :projects, project do |project_fields| %>
+      #     <% @person.projects.each do |projects| %>
+      #       <% if projects.active? %>
+      #         <%= person_form.fields_for :projects, projects do |project_fields| %>
       #           Name: <%= project_fields.text_field :name %>
       #         <% end %>
       #       <% end %>
@@ -1266,7 +1266,7 @@ module ActionView
       # Unfortunately that workaround does not work when the check box goes
       # within an array-like parameter, as in
       #
-      #   <%= fields_for "project[invoice_attributes][]", invoice, index: nil do |form| %>
+      #   <%= fields_for "projects[invoice_attributes][]", invoice, index: nil do |form| %>
       #     <%= form.check_box :paid %>
       #     ...
       #   <% end %>
@@ -1867,9 +1867,9 @@ module ActionView
       #
       #   <%= form_for @person do |person_form| %>
       #     ...
-      #     <% @person.projects.each do |project| %>
-      #       <% if project.active? %>
-      #         <%= person_form.fields_for :projects, project do |project_fields| %>
+      #     <% @person.projects.each do |projects| %>
+      #       <% if projects.active? %>
+      #         <%= person_form.fields_for :projects, projects do |project_fields| %>
       #           Name: <%= project_fields.text_field :name %>
       #         <% end %>
       #       <% end %>
@@ -2056,7 +2056,7 @@ module ActionView
       # Unfortunately that workaround does not work when the check box goes
       # within an array-like parameter, as in
       #
-      #   <%= fields_for "project[invoice_attributes][]", invoice, index: nil do |form| %>
+      #   <%= fields_for "projects[invoice_attributes][]", invoice, index: nil do |form| %>
       #     <%= form.check_box :paid %>
       #     ...
       #   <% end %>

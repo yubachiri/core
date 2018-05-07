@@ -58,29 +58,29 @@ module ActionController #:nodoc:
   # === Nested resources
   #
   # You can supply nested resources as you do in <code>form_for</code> and <code>polymorphic_url</code>.
-  # Consider the project has many tasks example. The create action for
+  # Consider the projects has many tasks example. The create action for
   # TasksController would be like:
   #
   #   def create
-  #     @project = Project.find(params[:project_id])
-  #     @task = @project.tasks.build(params[:task])
+  #     @projects = Project.find(params[:project_id])
+  #     @task = @projects.tasks.build(params[:task])
   #     flash[:notice] = 'Task was successfully created.' if @task.save
-  #     respond_with(@project, @task)
+  #     respond_with(@projects, @task)
   #   end
   #
   # Giving several resources ensures that the responder will redirect to
   # <code>project_task_url</code> instead of <code>task_url</code>.
   #
   # Namespaced and singleton resources require a symbol to be given, as in
-  # polymorphic urls. If a project has one manager which has many tasks, it
+  # polymorphic urls. If a projects has one manager which has many tasks, it
   # should be invoked as:
   #
-  #   respond_with(@project, :manager, @task)
+  #   respond_with(@projects, :manager, @task)
   #
   # Note that if you give an array, it will be treated as a collection,
   # so the following is not equivalent:
   #
-  #   respond_with [@project, :manager, @task]
+  #   respond_with [@projects, :manager, @task]
   #
   # === Custom options
   #
@@ -89,25 +89,25 @@ module ActionController #:nodoc:
   # scenarios. For instance, you can do the following in the create method above:
   #
   #   def create
-  #     @project = Project.find(params[:project_id])
-  #     @task = @project.tasks.build(params[:task])
+  #     @projects = Project.find(params[:project_id])
+  #     @task = @projects.tasks.build(params[:task])
   #     flash[:notice] = 'Task was successfully created.' if @task.save
-  #     respond_with(@project, @task, status: 201)
+  #     respond_with(@projects, @task, status: 201)
   #   end
   #
   # This will return status 201 if the task was saved successfully. If not,
   # it will simply ignore the given options and return status 422 and the
   # resource errors. You can also override the location to redirect to:
   #
-  #   respond_with(@project, location: root_path)
+  #   respond_with(@projects, location: root_path)
   #
   # To customize the failure scenario, you can pass a block to
   # <code>respond_with</code>:
   #
   #   def create
-  #     @project = Project.find(params[:project_id])
-  #     @task = @project.tasks.build(params[:task])
-  #     respond_with(@project, @task, status: 201) do |format|
+  #     @projects = Project.find(params[:project_id])
+  #     @task = @projects.tasks.build(params[:task])
+  #     respond_with(@projects, @task, status: 201) do |format|
   #       if @task.save
   #         flash[:notice] = 'Task was successfully created.'
   #       else

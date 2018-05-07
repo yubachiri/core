@@ -184,7 +184,7 @@ module ActiveRecord
       # Sets the table name explicitly. Example:
       #
       #   class Project < ActiveRecord::Base
-      #     self.table_name = "project"
+      #     self.table_name = "projects"
       #   end
       def table_name=(value)
         value = value && value.to_s

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib".freeze]
   s.authors = ["Mike Dalessio".freeze]
   s.date = "2018-02-04"
-  s.description = "Easy installation and use of chromedriver, the Chromium project's selenium webdriver adapter.".freeze
+  s.description = "Easy installation and use of chromedriver, the Chromium projects's selenium webdriver adapter.".freeze
   s.email = ["mike.dalessio@gmail.com".freeze]
   s.executables = ["chromedriver".freeze, "chromedriver-update".freeze]
   s.files = ["bin/chromedriver".freeze, "bin/chromedriver-update".freeze]

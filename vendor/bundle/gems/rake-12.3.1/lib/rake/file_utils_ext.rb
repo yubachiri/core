@@ -94,16 +94,16 @@ module Rake
     # Example:
     #
     #   when_writing("Building Project") do
-    #     project.build
+    #     projects.build
     #   end
     #
-    # The following code will build the project under normal
+    # The following code will build the projects under normal
     # conditions. If the nowrite(true) flag is set, then the example
     # will print:
     #
     #      DRYRUN: Building Project
     #
-    # instead of actually building the project.
+    # instead of actually building the projects.
     #
     def when_writing(msg=nil)
       if FileUtilsExt.nowrite_flag

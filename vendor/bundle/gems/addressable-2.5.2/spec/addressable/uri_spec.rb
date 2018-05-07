@@ -3564,10 +3564,10 @@ describe Addressable::URI, "when parsed from " +
 end
 
 describe Addressable::URI, "when parsed from " +
-    "'svn+ssh://developername@rubyforge.org/var/svn/project'" do
+    "'svn+ssh://developername@rubyforge.org/var/svn/projects'" do
   before do
     @uri = Addressable::URI.parse(
-      "svn+ssh://developername@rubyforge.org/var/svn/project"
+      "svn+ssh://developername@rubyforge.org/var/svn/projects"
     )
   end
 
@@ -3579,8 +3579,8 @@ describe Addressable::URI, "when parsed from " +
     expect(@uri).to be_ip_based
   end
 
-  it "should have a path of '/var/svn/project'" do
-    expect(@uri.path).to eq("/var/svn/project")
+  it "should have a path of '/var/svn/projects'" do
+    expect(@uri.path).to eq("/var/svn/projects")
   end
 
   it "should have a username of 'developername'" do
@@ -3597,10 +3597,10 @@ describe Addressable::URI, "when parsed from " +
 end
 
 describe Addressable::URI, "when parsed from " +
-    "'ssh+svn://developername@RUBYFORGE.ORG/var/svn/project'" do
+    "'ssh+svn://developername@RUBYFORGE.ORG/var/svn/projects'" do
   before do
     @uri = Addressable::URI.parse(
-      "ssh+svn://developername@RUBYFORGE.ORG/var/svn/project"
+      "ssh+svn://developername@RUBYFORGE.ORG/var/svn/projects"
     )
   end
 
@@ -3620,8 +3620,8 @@ describe Addressable::URI, "when parsed from " +
     expect(@uri).not_to be_ip_based
   end
 
-  it "should have a path of '/var/svn/project'" do
-    expect(@uri.path).to eq("/var/svn/project")
+  it "should have a path of '/var/svn/projects'" do
+    expect(@uri.path).to eq("/var/svn/projects")
   end
 
   it "should have a username of 'developername'" do

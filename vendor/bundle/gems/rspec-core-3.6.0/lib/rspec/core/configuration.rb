@@ -253,10 +253,10 @@ module RSpec
       end
 
       # @macro add_setting
-      # Specifies which directories contain the source code for your project.
+      # Specifies which directories contain the source code for your projects.
       # When a failure occurs, RSpec looks through the backtrace to find a
       # a line of source to print. It first looks for a line coming from
-      # one of the project source directories so that, for example, it prints
+      # one of the projects source directories so that, for example, it prints
       # the expectation or assertion call rather than the source code from
       # the expectation or assertion framework.
       # @return [Array<String>]

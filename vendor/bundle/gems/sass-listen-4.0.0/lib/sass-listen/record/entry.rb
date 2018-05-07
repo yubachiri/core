@@ -24,9 +24,9 @@ module SassListen
       end
 
       # record hash is e.g.
-      # if @record["/home/me/watched_dir"]["project/app/models"]["foo.rb"]
-      # if @record["/home/me/watched_dir"]["project/app"]["models"]
-      # record_dir_key is "project/app/models"
+      # if @record["/home/me/watched_dir"]["projects/app/models"]["foo.rb"]
+      # if @record["/home/me/watched_dir"]["projects/app"]["models"]
+      # record_dir_key is "projects/app/models"
       def record_dir_key
         ::File.join(*[@relative, @name].compact)
       end

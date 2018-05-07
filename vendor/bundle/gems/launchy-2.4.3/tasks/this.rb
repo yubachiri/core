@@ -1,9 +1,9 @@
 require 'pathname'
 
 # Public: A Class containing all the metadata and utilities needed to manage a
-# ruby project.
+# ruby projects.
 class ThisProject
-  # The name of this project
+  # The name of this projects
   attr_accessor :name
 
   # The author's name
@@ -12,7 +12,7 @@ class ThisProject
   # The email address of the author(s)
   attr_accessor :email
 
-  # The homepage of this project
+  # The homepage of this projects
   attr_accessor :homepage 
 
   # The regex of files to exclude from the manifest
@@ -32,8 +32,8 @@ class ThisProject
 
   # Public: return the version of ThisProject
   #
-  # Search the ruby files in the project looking for the one that has the
-  # version string in it. This does not eval any code in the project, it parses
+  # Search the ruby files in the projects looking for the one that has the
+  # version string in it. This does not eval any code in the projects, it parses
   # the source code looking for the string.
   #
   # Returns a String version
@@ -49,7 +49,7 @@ class ThisProject
 
   # Internal: Return a section of an RDoc file with the given section name
   #
-  # path         - the relative path in the project of the file to parse
+  # path         - the relative path in the projects of the file to parse
   # section_name - the section out of the file from which to parse data
   #
   # Retuns the text of the section as an array of paragrphs.
@@ -71,10 +71,10 @@ class ThisProject
     warn "WARNING: '#{task}' tasks are not defined. Please run 'rake develop'"
   end
 
-  # Internal: Return the full path to the file that is relative to the project
+  # Internal: Return the full path to the file that is relative to the projects
   # root.
   #
-  # path - the relative path of the file from the project root
+  # path - the relative path of the file from the projects root
   #
   # Returns the Pathname of the file
   def project_path( *relative_path )
@@ -88,9 +88,9 @@ class ThisProject
     Pathname.new( __FILE__ ).expand_path
   end
 
-  # Internal: The root directory of this project
+  # Internal: The root directory of this projects
   #
-  # This is defined as being the directory that is in the path of this project
+  # This is defined as being the directory that is in the path of this projects
   # that has the first Rakefile
   #
   # Returns the Pathname of the directory

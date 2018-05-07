@@ -1,5 +1,5 @@
 # This is borrowed (slightly modified) from Scott Taylor's
-# project_path project:
+# project_path projects:
 #   http://github.com/smtlaissezfaire/project_path
 
 require 'pathname'

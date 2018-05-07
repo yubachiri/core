@@ -441,7 +441,7 @@ Capybara.register_server :puma do |app, port, host, **options|
   begin
     require 'rack/handler/puma'
   rescue LoadError
-    raise LoadError, "Capybara is unable to load `puma` for its server, please add `puma` to your project or specify a different server via something like `Capybara.server = :webrick`."
+    raise LoadError, "Capybara is unable to load `puma` for its server, please add `puma` to your projects or specify a different server via something like `Capybara.server = :webrick`."
   end
   # If we just run the Puma Rack handler it installs signal handlers which prevent us from being able to interrupt tests.
   # Therefore construct and run the Server instance ourselves.

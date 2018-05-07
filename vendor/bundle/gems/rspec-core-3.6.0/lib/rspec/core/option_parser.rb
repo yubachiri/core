@@ -258,7 +258,7 @@ FILTERING
 
         parser.separator("\n  **** Utility ****\n\n")
 
-        parser.on('--init', 'Initialize your project with RSpec.') do |_cmd|
+        parser.on('--init', 'Initialize your projects with RSpec.') do |_cmd|
           options[:runner] = RSpec::Core::Invocations::InitializeProject.new
         end
 

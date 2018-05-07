@@ -76,7 +76,7 @@ module RSpec::Core
           options[:drb_port] = o.to_i
         end
 
-        parser.on('--init', 'Initialize your project with RSpec.') do |cmd|
+        parser.on('--init', 'Initialize your projects with RSpec.') do |cmd|
           RSpec::Support.require_rspec_core "project_initializer"
           ProjectInitializer.new.run
           exit

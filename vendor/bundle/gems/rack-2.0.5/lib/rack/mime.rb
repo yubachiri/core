@@ -349,7 +349,7 @@ module Rack
       ".mpkg"      => "application/vnd.apple.installer+xml",
       ".mpm"       => "application/vnd.blueice.multipass",
       ".mpn"       => "application/vnd.mophun.application",
-      ".mpp"       => "application/vnd.ms-project",
+      ".mpp"       => "application/vnd.ms-projects",
       ".mpy"       => "application/vnd.ibm.minipay",
       ".mqy"       => "application/vnd.mobius.mqy",
       ".mrc"       => "application/marc",

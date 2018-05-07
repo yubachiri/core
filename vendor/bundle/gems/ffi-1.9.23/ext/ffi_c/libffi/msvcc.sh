@@ -91,7 +91,7 @@ do
         ;;
         *)
           # The ax_cc_maxopt.m4 macro from the upstream autoconf-archive
-          # project doesn't support MSVC and therefore ends up trying to
+          # projects doesn't support MSVC and therefore ends up trying to
           # use -O3. Use the equivalent "max optimization" flag for MSVC
           # instead of erroring out.
           case $1 in

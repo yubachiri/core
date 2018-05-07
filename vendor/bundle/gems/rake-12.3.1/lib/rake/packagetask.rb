@@ -7,7 +7,7 @@ require "rake/tasklib"
 
 module Rake
 
-  # Create a packaging task that will package the project into
+  # Create a packaging task that will package the projects into
   # distributable files (e.g zip archive or tar files).
   #
   # The PackageTask will create the following targets:

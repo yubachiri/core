@@ -142,10 +142,10 @@ module ActionController #:nodoc:
     # in <code>form_for</code> and <code>polymorphic_url</code>. For example -
     #
     #   def create
-    #     @project = Project.find(params[:project_id])
-    #     @task = @project.comments.build(params[:task])
+    #     @projects = Project.find(params[:project_id])
+    #     @task = @projects.comments.build(params[:task])
     #     flash[:notice] = 'Task was successfully created.' if @task.save
-    #     respond_with(@project, @task)
+    #     respond_with(@projects, @task)
     #   end
     #
     # This would cause +respond_with+ to redirect to <code>project_task_url</code>

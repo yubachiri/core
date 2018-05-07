@@ -21,14 +21,14 @@ module ActionMailer
   #         reply_to:  inviter.email_address_with_name
   #     end
   #
-  #     def project_invitation(project, inviter, invitee)
+  #     def project_invitation(projects, inviter, invitee)
   #       @account = inviter.account
-  #       @project = project
+  #       @projects = projects
   #       @inviter = inviter
   #       @invitee = invitee
-  #       @summarizer = ProjectInvitationSummarizer.new(@project.bucket)
+  #       @summarizer = ProjectInvitationSummarizer.new(@projects.bucket)
   #
-  #       subject = "#{@inviter.name.familiar} added you to a project in Basecamp (#{@account.name})"
+  #       subject = "#{@inviter.name.familiar} added you to a projects in Basecamp (#{@account.name})"
   #
   #       mail \
   #         subject:   subject,
@@ -70,10 +70,10 @@ module ActionMailer
   #     end
   #
   #     def project_invitation
-  #       @project    = params[:project]
-  #       @summarizer = ProjectInvitationSummarizer.new(@project.bucket)
+  #       @projects    = params[:projects]
+  #       @summarizer = ProjectInvitationSummarizer.new(@projects.bucket)
   #
-  #       mail subject: "#{@inviter.name.familiar} added you to a project in Basecamp (#{@account.name})"
+  #       mail subject: "#{@inviter.name.familiar} added you to a projects in Basecamp (#{@account.name})"
   #     end
   #
   #     def bulk_project_invitation

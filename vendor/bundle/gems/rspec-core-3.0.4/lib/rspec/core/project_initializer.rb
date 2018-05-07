@@ -1,7 +1,7 @@
 module RSpec
   module Core
     # @private
-    # Generates conventional files for an rspec project
+    # Generates conventional files for an rspec projects
     class ProjectInitializer
       attr_reader :destination, :stream, :template_path
 

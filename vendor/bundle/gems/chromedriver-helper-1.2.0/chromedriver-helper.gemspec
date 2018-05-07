@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.email       = ["mike.dalessio@gmail.com"]
   s.homepage    = "https://github.com/flavorjones/chromedriver-helper"
   s.summary     = "Easy installation and use of chromedriver."
-  s.description = "Easy installation and use of chromedriver, the Chromium project's selenium webdriver adapter."
+  s.description = "Easy installation and use of chromedriver, the Chromium projects's selenium webdriver adapter."
   s.licenses    = ["MIT"]
 
   begin

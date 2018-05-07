@@ -17,7 +17,7 @@ module ActiveRecord
       #
       #   Project.no_touching do
       #     Project.first.touch  # does nothing
-      #     Message.first.touch  # works, but does not touch the associated project
+      #     Message.first.touch  # works, but does not touch the associated projects
       #   end
       #
       def no_touching(&block)

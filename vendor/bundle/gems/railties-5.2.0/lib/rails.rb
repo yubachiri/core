@@ -55,11 +55,11 @@ module Rails
       end
     end
 
-    # Returns a Pathname object of the current Rails project,
-    # otherwise it returns +nil+ if there is no project:
+    # Returns a Pathname object of the current Rails projects,
+    # otherwise it returns +nil+ if there is no projects:
     #
     #   Rails.root
-    #     # => #<Pathname:/Users/someuser/some/path/project>
+    #     # => #<Pathname:/Users/someuser/some/path/projects>
     def root
       application && application.config.root
     end
@@ -103,10 +103,10 @@ module Rails
     end
 
     # Returns a Pathname object of the public folder of the current
-    # Rails project, otherwise it returns +nil+ if there is no project:
+    # Rails projects, otherwise it returns +nil+ if there is no projects:
     #
     #   Rails.public_path
-    #     # => #<Pathname:/Users/someuser/some/path/project/public>
+    #     # => #<Pathname:/Users/someuser/some/path/projects/public>
     def public_path
       application && Pathname.new(application.paths["public"].first)
     end

@@ -547,7 +547,7 @@ module Rake
             lambda { |value| options.load_system = true }
           ],
           ['--no-system', '--nosystem', '-G',
-            "Use standard project Rakefile search paths, " +
+            "Use standard projects Rakefile search paths, " +
             "ignore system wide rakefiles.",
             lambda { |value| options.ignore_system = true }
           ],

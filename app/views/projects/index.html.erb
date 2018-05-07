@@ -1,0 +1,17 @@
+<% provide(:title, 'プロジェクト一覧') %>
+<h1>Project#index</h1>
+<p>Find me in app/views/project/index.html.erb</p>
+<% if @owner_prj.present? %>
+  <% @owner_prj.each do |op| %>
+    <p>
+      <%= op.name %>>
+    </p>
+  <% end %>
+<% end %>
+<% if @joined_prj.present? %>
+  <% @joined_prj.each do |jp| %>
+    <p>
+      <%= jp.name %>>
+    </p>
+  <% end %>
+<% end %>

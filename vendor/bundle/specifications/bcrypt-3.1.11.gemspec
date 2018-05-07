@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib".freeze]
   s.authors = ["Coda Hale".freeze]
   s.date = "2016-03-06"
-  s.description = "    bcrypt() is a sophisticated and secure hash algorithm designed by The OpenBSD project\n    for hashing passwords. The bcrypt Ruby gem provides a simple wrapper for safely handling\n    passwords.\n".freeze
+  s.description = "    bcrypt() is a sophisticated and secure hash algorithm designed by The OpenBSD projects\n    for hashing passwords. The bcrypt Ruby gem provides a simple wrapper for safely handling\n    passwords.\n".freeze
   s.email = "coda.hale@gmail.com".freeze
   s.extensions = ["ext/mri/extconf.rb".freeze]
   s.extra_rdoc_files = ["README.md".freeze, "COPYING".freeze, "CHANGELOG".freeze, "lib/bcrypt/engine.rb".freeze, "lib/bcrypt/error.rb".freeze, "lib/bcrypt/password.rb".freeze, "lib/bcrypt.rb".freeze]

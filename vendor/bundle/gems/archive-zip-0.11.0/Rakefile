@@ -9,7 +9,7 @@ require 'rubygems/package_task'
 require 'rake/clean'
 require 'yard'
 
-# Load the gemspec file for this project.
+# Load the gemspec file for this projects.
 GEMSPEC = Dir['*.gemspec'].first
 SPEC = eval(File.read(GEMSPEC), nil, GEMSPEC)
 
@@ -22,9 +22,9 @@ VERSION_REF =
 
 # A dynamically generated list of files that should match the manifest (the
 # combined contents of SPEC.files and SPEC.test_files).  The idea is for this
-# list to contain all project files except for those that have been explicitly
+# list to contain all projects files except for those that have been explicitly
 # excluded.  This list will be compared with the manifest from the SPEC in order
-# to help catch the addition or removal of files to or from the project that
+# to help catch the addition or removal of files to or from the projects that
 # have not been accounted for either by an exclusion here or an inclusion in the
 # SPEC manifest.
 #
@@ -32,7 +32,7 @@ VERSION_REF =
 # It is critical that the manifest is *not* automatically generated via globbing
 # and the like; otherwise, this will yield a simple comparison between
 # redundantly generated lists of files that probably will not protect the
-# project from the unintentional inclusion or exclusion of files in the
+# projects from the unintentional inclusion or exclusion of files in the
 # distribution.
 PKG_FILES = FileList.new(Dir.glob('**/*', File::FNM_DOTMATCH)) do |files|
   # Exclude anything that doesn't exist as well as directories.
@@ -178,12 +178,12 @@ end
 
 # Version string management tasks.
 namespace :version do
-  desc 'Set the version for the project to a specified version'
+  desc 'Set the version for the projects to a specified version'
   task :set do
     set_version(get_version_argument)
   end
 
-  desc 'Set the version for the project back to 0.0.0'
+  desc 'Set the version for the projects back to 0.0.0'
   task :reset do
     set_version('0.0.0')
   end

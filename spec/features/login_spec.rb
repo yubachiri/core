@@ -13,13 +13,14 @@ RSpec.feature "Logins", type: :feature do
     }.to change(User, :count).by(1)
   end
 
-  scenario "アプリユーザはログインできる", focus: true do
+  scenario "アプリユーザはログインできる" do
     user = FactoryGirl.create(:user)
     visit root_path
     click_link 'ログイン'
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     click_button 'ログイン'
+    # ヘッダに表示される想定
     expect(find_link(user.name)).to be_present
   end
 end

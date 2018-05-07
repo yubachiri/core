@@ -77,7 +77,7 @@ END
         require lib
       end
 
-      opts.on('--compass', 'Make Compass imports available and load project configuration.') do
+      opts.on('--compass', 'Make Compass imports available and load projects configuration.') do
         @options[:compass] = true
       end
 

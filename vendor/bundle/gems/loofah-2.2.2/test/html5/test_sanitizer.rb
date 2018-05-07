@@ -1,5 +1,5 @@
 #
-#  these tests taken from the HTML5 sanitization project and modified for use with Loofah
+#  these tests taken from the HTML5 sanitization projects and modified for use with Loofah
 #  see the original here: http://code.google.com/p/html5lib/source/browse/ruby/test/test_sanitizer.rb
 #
 #  license text at the bottom of this file

@@ -69,7 +69,7 @@ module Sprockets
     # Internal: Key of asset
     #
     # Used to retrieve an asset from the cache based on "compressed" path to asset.
-    # A "compressed" path can either be relative to the root of the project or an
+    # A "compressed" path can either be relative to the root of the projects or an
     # absolute path.
     #
     # Returns a String.

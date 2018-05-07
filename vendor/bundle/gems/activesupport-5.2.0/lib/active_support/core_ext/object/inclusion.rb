@@ -18,7 +18,7 @@ class Object
   # Returns the receiver if it's included in the argument otherwise returns +nil+.
   # Argument must be any object which responds to +#include?+. Usage:
   #
-  #   params[:bucket_type].presence_in %w( project calendar )
+  #   params[:bucket_type].presence_in %w( projects calendar )
   #
   # This will throw an +ArgumentError+ if the argument doesn't respond to +#include?+.
   #

@@ -171,7 +171,7 @@ module ActiveRecord
 
   # This error is raised when trying to destroy a parent instance in N:1 or 1:1 associations
   # (has_many, has_one) when there is at least 1 child associated instance.
-  # ex: if @project.tasks.size > 0, DeleteRestrictionError will be raised when trying to destroy @project
+  # ex: if @projects.tasks.size > 0, DeleteRestrictionError will be raised when trying to destroy @projects
   class DeleteRestrictionError < ActiveRecordError #:nodoc:
     def initialize(name = nil)
       if name
@@ -290,7 +290,7 @@ module ActiveRecord
       #     has_and_belongs_to_many :categories
       #   end
       #
-      # The project class now has the following methods (and more) to ease the traversal and
+      # The projects class now has the following methods (and more) to ease the traversal and
       # manipulation of its relationships:
       # * <tt>Project#portfolio, Project#portfolio=(portfolio), Project#portfolio.nil?</tt>
       # * <tt>Project#project_manager, Project#project_manager=(project_manager), Project#project_manager.nil?,</tt>
@@ -409,7 +409,7 @@ module ActiveRecord
       #
       #   class Assignment < ActiveRecord::Base
       #     belongs_to :programmer  # foreign key - programmer_id
-      #     belongs_to :project     # foreign key - project_id
+      #     belongs_to :projects     # foreign key - project_id
       #   end
       #   class Programmer < ActiveRecord::Base
       #     has_many :assignments
@@ -816,11 +816,11 @@ module ActiveRecord
       # shared across methods to make it even cheaper to use the macro-added methods without
       # worrying too much about performance at the first go.
       #
-      #   project.milestones             # fetches milestones from the database
-      #   project.milestones.size        # uses the milestone cache
-      #   project.milestones.empty?      # uses the milestone cache
-      #   project.milestones.reload.size # fetches milestones from the database
-      #   project.milestones             # uses the milestone cache
+      #   projects.milestones             # fetches milestones from the database
+      #   projects.milestones.size        # uses the milestone cache
+      #   projects.milestones.empty?      # uses the milestone cache
+      #   projects.milestones.reload.size # fetches milestones from the database
+      #   projects.milestones             # uses the milestone cache
       #
       # == Eager loading of associations
       #
@@ -1125,8 +1125,8 @@ module ActiveRecord
       # to be removed from the database.
       #
       # However, there are examples where this strategy doesn't make sense. For example, suppose
-      # a person has many projects, and each project has many tasks. If we deleted one of a person's
-      # tasks, we would probably not want the project to be deleted. In this scenario, the delete method
+      # a person has many projects, and each projects has many tasks. If we deleted one of a person's
+      # tasks, we would probably not want the projects to be deleted. In this scenario, the delete method
       # won't actually work: it can only be used if the association on the join model is a
       # #belongs_to. In other situations you are expected to perform operations directly on
       # either the associated records or the <tt>:through</tt> association.
@@ -1644,7 +1644,7 @@ module ActiveRecord
         #   belongs_to :valid_coupon, ->(o) { where "discounts > ?", o.payments_count },
         #                             class_name: "Coupon", foreign_key: "coupon_id"
         #   belongs_to :attachable, polymorphic: true
-        #   belongs_to :project, -> { readonly }
+        #   belongs_to :projects, -> { readonly }
         #   belongs_to :post, counter_cache: true
         #   belongs_to :comment, touch: true
         #   belongs_to :company, touch: :employees_last_updated_at

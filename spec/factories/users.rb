@@ -2,11 +2,26 @@
 
 FactoryGirl.define do
   factory :user do
-    name 'example'
-    email 'notexists_address@sample_email_address.com'
+    sequence :name do |n|
+      "test user #{n}"
+    end
+    sequence :email do |n|
+      "notexists_address#{n}@sample_email_address.com"
+    end
     password 'foobar'
 
     # skip confirmation
     confirmed_at Time.now
+
+    trait :with_project do
+      # ユーザ with projects をcreateした場合、自身をオーナーに設定したプロジェクトをもつユーザを作成する
+      after(:create) do |user|
+        user.project_members << FactoryGirl.create(
+          :project_member,
+          user:     user,
+          projects: FactoryGirl.create(:projects, user: user)
+        )
+      end
+    end
   end
 end

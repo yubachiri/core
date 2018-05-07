@@ -119,18 +119,18 @@ class Array
   #
   #   <?xml version="1.0" encoding="UTF-8"?>
   #   <projects type="array">
-  #     <project>
+  #     <projects>
   #       <amount type="decimal">20000.0</amount>
   #       <customer-id type="integer">1567</customer-id>
   #       <deal-date type="date">2008-04-09</deal-date>
   #       ...
-  #     </project>
-  #     <project>
+  #     </projects>
+  #     <projects>
   #       <amount type="decimal">57230.0</amount>
   #       <customer-id type="integer">1567</customer-id>
   #       <deal-date type="date">2008-04-15</deal-date>
   #       ...
-  #     </project>
+  #     </projects>
   #   </projects>
   #
   # Otherwise the root element is "objects":

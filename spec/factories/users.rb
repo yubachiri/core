@@ -19,7 +19,7 @@ FactoryGirl.define do
         user.project_members << FactoryGirl.create(
           :project_member,
           user:     user,
-          projects: FactoryGirl.create(:projects, user: user)
+          project: FactoryGirl.create(:project, user: user)
         )
       end
     end

@@ -10,8 +10,9 @@ class Project < ApplicationRecord
 
     # 自分が作成したプロジェクトと参加しているプロジェクトをそれぞれ返す
     def get_visible_projects(current_user)
-      @owner_prj  = current_user.projects.all
-      @joined_prj = current_user.joined_projects.all
+      owner_prj  = current_user.projects.all
+      joined_prj = current_user.joined_projects.all
+      return owner_prj, joined_prj
     end
   end
 end

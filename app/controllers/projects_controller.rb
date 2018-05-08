@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
 
   def index
     # ユーザが閲覧可能なプロジェクトの一覧を表示する
-    Project.get_visible_projects current_user
+    @owner_prj, @joined_prj = Project.get_visible_projects current_user
   end
 
   def new
@@ -15,6 +15,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @project = Project.find(params[:id])
   end
 
   private

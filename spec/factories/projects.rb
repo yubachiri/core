@@ -1,8 +1,8 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :projects do
-    name "test projects"
+  factory :project, class: Project do
+    name 'test project'
     user nil
   end
 end

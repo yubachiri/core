@@ -24,7 +24,7 @@ gem 'devise-bootstrap-views'
 gem "pundit"
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', require: false
 
 # bootstrap
 gem 'bootstrap-sass', '~> 3.3.6'

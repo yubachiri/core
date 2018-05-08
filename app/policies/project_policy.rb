@@ -1,12 +1,13 @@
 class ProjectPolicy < ApplicationPolicy
   def index?
     # @user current_userが空ならfalseを返す
-    !@user.nil?
+    # !@user.nil?
+    true
   end
 
   def show?
     # 渡されたプロジェクトの参加者に現在のユーザがいればtrue
-    !!@record.users.find_by(id: @user.id) || @record.user_id == @user.id
+    !!@record.users.find_by(id: @user.id) || @record.user_id == @user.id unless @user.nil?
   end
 
   def create?

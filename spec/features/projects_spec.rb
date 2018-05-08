@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.feature "Projects", type: :feature, focus: true do
+RSpec.feature "Projects", type: :feature do
 
-  scenario "自分の参加しているプロジェクト一覧ページからプロジェクトページが確認できる", focus: true do
+  scenario "自分の参加しているプロジェクト一覧ページからプロジェクトページが確認できる" do
     user = FactoryGirl.create(:user, :with_project)
     project_name = user.project_members.first.project.name
     login user

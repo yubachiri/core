@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
-  before_action :pundit_auth, only: [:index]
-  after_action :verify_authorized
-
+  before_action :authenticate_user!, only: [:index, :show]
+  # before_action :pundit_auth, only: [:index]
+  after_action :verify_authorized, only: [:show]
 
   def index
     # ユーザが閲覧可能なプロジェクトの一覧を表示する
@@ -19,9 +19,9 @@ class ProjectsController < ApplicationController
     authorize @project
   end
 
-  private
-
-  def pundit_auth
-    authorize Project
-  end
+  # private
+  #
+  # def pundit_auth
+  #   authorize Project
+  # end
 end

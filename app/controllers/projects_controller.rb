@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :pundit_auth
+  before_action :pundit_auth, only: [:index]
   after_action :verify_authorized
 
 
@@ -16,6 +16,7 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+    authorize @project
   end
 
   private

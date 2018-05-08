@@ -23,9 +23,8 @@ RSpec.feature "Projects", type: :feature, focus: true do
     # project_nameが含まれる<a></a>がないことを確認する
     expect(page).to_not have_css 'a', text: project.name
 
-    # Punditを使ってこれを不可能にする
     visit project_path(project)
-    expect(page).to have_css 'title', visible: "#{project.name} | Core"
+    expect(page).to_not have_css 'title', text: "#{project.name} | Core"
   end
 
 end

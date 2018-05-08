@@ -1,6 +1,6 @@
 class Project < ApplicationRecord
-  has_many :users, through: :project_members
   has_many :project_members
+  has_many :users, through: :project_members
   belongs_to :user
   accepts_nested_attributes_for :project_members
   validates :name, presence: true

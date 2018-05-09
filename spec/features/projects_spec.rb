@@ -42,8 +42,8 @@ RSpec.feature "Projects", type: :feature, focus: true do
       click_link project.name
       click_link 'メンバー'
       expect do
-        click_button 'メンバー招待'
-        fill_in :email, with: other_user.email
+        click_link 'メンバー招待'
+        fill_in :search, with: other_user.email
         click_button '招待'
         click_button '確定'
       end.to change(ProjectMember, :count).by(1)

@@ -6,4 +6,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   validates :name, presence: true
 
+  def self.search(email)
+    User.find_by(email: email)
+  end
+
 end

@@ -1,4 +1,10 @@
 <% provide(:title, "invite new member to #{@project.name}") %>
 <% provide(:header, render('shared/project_header')) %>
 
-
+<%= form_tag project_project_members_path, :method => 'post' do %>
+  <p>
+    <%= text_field_tag :search, params[:search], required: true %>
+    <%= submit_tag "招待", :name => nil %>
+  </p>
+  <%= hidden_field_tag :project_id, @project.id %>>
+<% end %>

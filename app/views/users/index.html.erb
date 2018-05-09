@@ -3,7 +3,7 @@
   <div class="col-md-10 col-md-offset-1">
     <h1><%= "#{@project.name} / Project Members" %></h1>
     <div class="right">
-      <%= link_to 'メンバー招待', project_members_new_path, class: 'btn btn-primary', id: 'invite-button' %>
+      <%= link_to 'メンバー招待', new_project_project_member_path(@project), class: 'btn btn-primary', id: 'invite-button' %>
     </div>
     <hr>
   </div>

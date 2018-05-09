@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature "Logins", type: :feature do
-  scenario "ゲストは新規会員登録ができる" do
+  xscenario "ゲストは新規会員登録ができる" do
     visit root_path
     click_link '新規登録'
     expect {

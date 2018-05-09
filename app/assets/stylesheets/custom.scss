@@ -17,9 +17,17 @@ body {
   background-color: white;
 }
 
+div.right{
+  text-align: right;
+}
+
+a.btn#invite-button{
+  padding: 5px 50px 5px 50px;
+}
+
 /*フォーム系*/
 
-#confirm_button{
+#confirm_button {
   margin-top: 5px;
   text-align: right;
 }
@@ -35,6 +43,10 @@ nav {
   .navbar-right {
     padding-right: 2%;
   }
+}
+
+.navbar-nav > li > .dropdown-menu {
+  margin-top: 10px;
 }
 
 .top-nav > li {

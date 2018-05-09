@@ -19,9 +19,4 @@ class ProjectsController < ApplicationController
     authorize @project
   end
 
-  # private
-  #
-  # def pundit_auth
-  #   authorize Project
-  # end
 end

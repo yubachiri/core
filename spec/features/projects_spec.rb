@@ -29,10 +29,8 @@ RSpec.feature "Projects", type: :feature, focus: true do
       visit project_path(project)
 
       click_link 'メンバー'
-      ## 暫定 ##
       expect(page).to have_css 'a', text: user.name
       expect(page).to have_css 'a', text: other_user.name
-      ##########
     end
 
     scenario "ユーザをプロジェクトに招待できる", js: true do

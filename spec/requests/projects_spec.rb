@@ -11,7 +11,7 @@ RSpec.describe "Projects", type: :request do
     context "ログイン時" do
       it "参加していないプロジェクトは閲覧できない" do
         login_as other_user
-        get project_path(user.projects.first)
+        get project_path(project)
         expect(response).to_not be_successful
       end
     end

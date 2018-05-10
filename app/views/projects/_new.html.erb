@@ -1,0 +1,12 @@
+<div class="modal-dialog" id="newproject-input-modal">
+  <div class="modal-content">
+    <h2>新規プロジェクト作成</h2>
+    <hr>
+    <div class="col-md-offset-1">
+      <p><%= form_tag projects_path, :method => 'post' %></p>
+      <p><%= label_tag 'プロジェクト名 : ' %></p>
+      <p><%= text_field_tag :project_name, params[:project_name], placeholder: 'new project' %>
+        <%= submit_tag "作成", :name => nil %></p>
+    </div>
+  </div>
+</div>

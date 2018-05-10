@@ -5,8 +5,8 @@
   <h1>メンバー招待</h1>
   <hr>
   <p>メールアドレスを入力</p>
+  <div id="confirm-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
   <%= form_tag confirm_project_project_members_path, :method => 'post', remote: true do %>
-    <div id="confirm-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
     <p>
       <%= text_field_tag :search, params[:search], required: true %>
       <%= submit_tag "招待", :name => nil, remote:true %>

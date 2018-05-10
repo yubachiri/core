@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Projects", type: :feature, focus: true do
+RSpec.feature "Projects", type: :feature do
 
   let(:user) { FactoryGirl.create(:user, :with_project) }
   let(:other_user) { FactoryGirl.create(:user) }
@@ -44,10 +44,41 @@ RSpec.feature "Projects", type: :feature, focus: true do
       expect {
         click_link 'メンバー招待'
         fill_in :search, with: other_user.email
-        click_button '招待'
-        click_button '確定'
+        find_button('招待').click
+        sleep 2
+        find_button('確定').click
+        sleep 2
       }.to change(ProjectMember, :count).by(1)
       expect(page).to have_css 'a', text: other_user.name
+    end
+
+    scenario "管理者ユーザはプロジェクト参加ユーザを外すことができる", js: true do
+      login user
+      add_member project, other_user
+      visit root_path
+      click_on user.name
+      click_link 'プロジェクト一覧'
+      click_link project.name
+      click_on project.name
+      click_link 'メンバー'
+      click_on other_user.name
+      expect { click_on 'プロジェクトから外す' }.to change(ProjectMember, :count).by(-1)
+    end
+
+    scenario "ユーザは新規プロジェクトを作成できる",js: true do
+      login user
+      visit root_path
+      click_on user.name
+      click_on '新規プロジェクト'
+      fill_in :project_name, with: 'new project'
+      expect{click_on '作成'}.to change(Project, :count).by(1)
+
+      new_project = Project.find_by(name: 'new project')
+      new_project_member = user.project_members.find_by(project: new_project)
+      expect(new_project.user_id).to eq(user.id)
+      expect(new_project_member).to be_present
+      expect(new_project_member.admin_flg).to be_truthy
+      expect(page).to have_content new_project.name
     end
 
   end
@@ -65,6 +96,16 @@ RSpec.feature "Projects", type: :feature, focus: true do
       expect(page).to_not have_css 'title', text: "#{project.name} | Core"
     end
 
+  end
+
+  def add_member(project, user)
+    visit project_users_path(project)
+    click_link 'メンバー招待'
+    fill_in :search, with: user.email
+    find_button('招待').click
+    sleep 2
+    find_button('確定').click
+    sleep 2
   end
 
 end

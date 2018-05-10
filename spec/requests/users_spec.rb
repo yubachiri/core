@@ -6,7 +6,7 @@ RSpec.describe "Users", type: :request do
   let(:other_user) { FactoryGirl.create(:user) }
   let(:project) { user.projects.first }
 
-  describe "異常系", focus: true do
+  describe "異常系" do
     context "ログイン時" do
       it "参加していないプロジェクトのメンバー一覧は確認できない" do
         login_as other_user

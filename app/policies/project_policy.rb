@@ -5,7 +5,7 @@ class ProjectPolicy < ApplicationPolicy
 
   def show?
     # 渡されたプロジェクトの所持者か参加者に現在のユーザがいればtrue
-    @record.users.find_by(id: @user.id) || @record.user_id == @user.id
+    @record.users.find_by(id: @user.id).present? || @record.user_id == @user.id
   end
 
   def show_user_index?

@@ -13,6 +13,10 @@
   <div id="page-wrapper">
     <div class="container-fluid">
       <div class="row" id="main">
+        <div id="newproject-input-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+        <% flash.each do |message_type, message| %>
+          <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+        <% end %>
         <p class="notice"><%= notice %></p>
         <p class="alert"><%= alert %></p>
         <%= yield %>

@@ -12,6 +12,17 @@ class ProjectsController < ApplicationController
   end
 
   def create
+    new_project = current_user.projects.build(name: params[:project_name])
+    if new_project.save
+      new_project.project_members.create(
+        user_id: new_project.user_id,
+        admin_flg: true)
+      flash[:success] = "プロジェクトを作成しました。"
+    else
+      flash[:danger] = "エラーが発生しました。"
+      redirect_back(fallback_location: projects_path)
+    end
+    redirect_to projects_path
   end
 
   def show

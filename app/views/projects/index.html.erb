@@ -1,8 +1,8 @@
 <% provide(:title, 'プロジェクト一覧') %>
 <% provide(:header, render('shared/header')) %>
 <div class="col-md-offset-3 col-md-6">
-  <h1>Project#index</h1>
-  <p>Find me in app/views/project/index.html.erb</p>
+  <h1>参加プロジェクト一覧</h1>
+  <br>
   <%# if @owner_prj.present? %>
 <!--    <p>所持プロジェクト</p>-->
     <%# @owner_prj.each do |op| %>
@@ -12,7 +12,6 @@
     <%# end %>
   <%# end %>
   <% if @joined_prj.present? %>
-    <p>参加プロジェクト</p>
     <% @joined_prj.each do |jp| %>
       <p>
         <%= link_to jp.name, project_path(jp) %>

@@ -4,13 +4,15 @@ class ProjectMembersController < ApplicationController
   end
 
   def create
-    @project = Project.find(params[:project_id])
-    invited_member = User.search(params[:search])
+    @project       = Project.find(params[:project_id])
+    invited_member = User.find(params[:member_id])
 
-    new_project_member = ProjectMember.new(
-      user_id: invited_member.id,
-      project_id: @project.id
-    )
+    if invited_member
+      new_project_member = ProjectMember.new(
+        user_id:    invited_member.id,
+        project_id: @project.id
+      )
+    end
 
     if new_project_member.save
       flash[:success] = "メンバーを追加しました。"
@@ -20,5 +22,14 @@ class ProjectMembersController < ApplicationController
       redirect_to new_project_project_member_path(@project)
     end
 
+  end
+
+  def confirm
+    @project       = Project.find(params[:project_id])
+    @invited_member = User.search(params[:search])
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 end

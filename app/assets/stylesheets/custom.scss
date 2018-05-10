@@ -27,9 +27,16 @@ a.btn#invite-button{
 
 /*フォーム系*/
 
-#confirm_button {
-  margin-top: 5px;
-  text-align: right;
+div{
+  #new-member-confirm{
+    padding: 5%;
+    h2{
+      margin: 10px;
+    }
+    .modal-content{
+      padding: 5% 10%;
+    }
+  }
 }
 
 /* ヘッダ内容 */

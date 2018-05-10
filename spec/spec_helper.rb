@@ -15,6 +15,14 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+
+  config.before(:all, :js => true) do
+    Capybara.current_driver = :selenium
+  end
+  config.after(:all, :js => true) do
+    Capybara.use_default_driver
+  end
+
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin

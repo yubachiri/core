@@ -54,4 +54,8 @@ Shoulda::Matchers.configure do |config| config.integrate do |with|
   with.library :rails end
 end
 
-Capybara.javascript_driver = :webkit
+# Capybara.javascript_driver = :webkit
+# Capybara.javascript_driver = :selenium
+Capybara.register_driver :selenium do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end

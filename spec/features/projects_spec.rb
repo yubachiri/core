@@ -36,15 +36,17 @@ RSpec.feature "Projects", type: :feature, focus: true do
     scenario "ユーザをプロジェクトに招待できる", js: true do
       login user
       visit root_path
-      click_link "プロジェクト一覧"
+      click_on user.name
+      click_link 'プロジェクト一覧'
       click_link project.name
+      click_on project.name
       click_link 'メンバー'
-      expect do
+      expect {
         click_link 'メンバー招待'
         fill_in :search, with: other_user.email
-        find("input[type=submit][value='招待']").click
+        click_button '招待'
         click_button '確定'
-      end.to change(ProjectMember, :count).by(1)
+      }.to change(ProjectMember, :count).by(1)
       expect(page).to have_css 'a', text: other_user.name
     end
 

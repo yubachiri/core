@@ -1,4 +1,4 @@
 require 'rails_helper'
 
-RSpec.describe ProjectMember, type: :model, focus: true do
+RSpec.describe ProjectMember, type: :model do
 end

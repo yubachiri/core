@@ -20,15 +20,22 @@ body {
 }
 
 div {
+  position: relative;
   overflow-wrap: break-word;
   #project-main{
     margin-left: 210px;
+  }
+  .wrap-project-showpage{
+    margin-top: 10px;
   }
   .right {
     text-align: right;
   }
   #member-list{
     width: 50%;
+  }
+  .alert{
+    margin-bottom: 0px;
   }
 }
 

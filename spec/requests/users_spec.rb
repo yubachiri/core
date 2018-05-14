@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Users", type: :request, focus: true do
+RSpec.describe "Users", type: :request do
   include_context "project setup"
 
   describe "異常系" do

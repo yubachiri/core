@@ -4,9 +4,35 @@
   <%= render 'shared/sidebar' %>
 </div>
 <div class="col-xs-8" id="project-main">
-  <p>Project#show</p>
-  <p><%= @project.name %></p>
-  <% @stories.each do |s| %>
-    <p><%= s.title %></p>
-  <% end %>
+
+  <div class="wrap-project-showpage">
+    <ul class="list-group">
+
+      <div class="panel-group">
+        <% @stories.each do |s| %>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <%= link_to "#{s.title}", "##{s.id}", "data-toggle": "collapse" %>
+              </h4>
+            </div>
+
+            <%= content_tag :div, id: "#{s.id}", class: "panel-collapse collapse" do -%>
+              <ul class="list-group">
+                <%= content_tag :li, s.title, class: "list-group-item" %>
+                <%= content_tag :li, s.description, class: "list-group-item" %>
+              </ul>
+            <% end %>
+
+          </div>
+
+        <% end %>
+
+      </div>
+
+    </ul>
+
+  </div>
+
 </div>

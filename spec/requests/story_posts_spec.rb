@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "StoryPosts", type: :request, focus: true do
+RSpec.describe "StoryPosts", type: :request do
   include_context "project setup"
 
   let(:story_hash) { { story: FactoryGirl.attributes_for(:story, project: project) } }

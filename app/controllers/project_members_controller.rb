@@ -25,7 +25,9 @@ class ProjectMembersController < ApplicationController
   def destroy
     @removed_user = User.find(params[:id])
     @project = Project.find(params[:project_id])
-    if @project.project_members.find_by(user_id: current_user.id).admin_flg? && ProjectMember.find_by(user: @removed_user).delete
+    is_admin = @project.project_members.find_by(user_id: current_user.id).admin_flg?
+
+    if is_admin && ProjectMember.find_by(user: @removed_user).delete
       flash[:success] = "#{@removed_user.name}さんをプロジェクトから外しました。"
     else
       flash[:danger] = "エラーが発生しました。"

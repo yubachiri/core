@@ -1,0 +1,18 @@
+<% provide(:title, @project.name) %>
+<% provide(:header, render('shared/project_header')) %>
+<div class="col-xs-2" id="sidebar">
+  <%= render 'shared/sidebar' %>
+</div>
+<div class="col-xs-8" id="project-main">
+  <div class="col-md-6">
+    <h1>新規ストーリー</h1>
+    <%= form_for @new_story, url: project_stories_path, method: 'post' do |f| %>
+      <%= f.label 'タイトル' %>
+      <%= f.text_field :title, class: 'form-control', presence: true %>
+      <%= f.label '内容' %>
+      <%= f.text_area :description, class: 'form-control' %>
+      <%= f.submit '作成', class: 'btn btn-primary' %>
+      <%= f.hidden_field :project, id: :id %>
+    <% end %>
+  </div>
+</div>

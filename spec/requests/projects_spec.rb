@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Projects", type: :request do
-
-  let(:user) { FactoryGirl.create(:user, :with_project) }
-  let(:other_user) { FactoryGirl.create(:user) }
-  let(:project) { user.projects.first }
+  include_context "project setup"
 
   describe "正常系" do
     it "管理者ユーザは参加メンバーを外すことができる" do

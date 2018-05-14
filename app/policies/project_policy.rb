@@ -12,6 +12,10 @@ class ProjectPolicy < ApplicationPolicy
     show?
   end
 
+  def new_story?
+    show?
+  end
+
   def create?
     true
   end

@@ -1,4 +1,12 @@
-<% provide(:title, @project.name)%>
+<% provide(:title, @project.name) %>
 <% provide(:header, render('shared/project_header')) %>
-<h1>Project#show</h1>
-<p>Find me in app/views/project/show.html.erb</p>
+<div class="col-xs-2" id="sidebar">
+  <%= render 'shared/sidebar' %>
+</div>
+<div class="col-xs-8" id="project-main">
+  <p>Project#show</p>
+  <p><%= @project.name %></p>
+  <% @stories.each do |s| %>
+    <p><%= s.title %></p>
+  <% end %>
+</div>

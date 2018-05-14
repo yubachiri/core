@@ -1,10 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Users", type: :request do
-
-  let(:user) { FactoryGirl.create(:user, :with_project) }
-  let(:other_user) { FactoryGirl.create(:user) }
-  let(:project) { user.projects.first }
+RSpec.describe "Users", type: :request, focus: true do
+  include_context "project setup"
 
   describe "異常系" do
     context "ログイン時" do

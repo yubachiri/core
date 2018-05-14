@@ -1,0 +1,6 @@
+<ul class="nav nav-sidebar">
+  <li><c>Project Menu</c></li>
+  <li><%= link_to "#{@project.name} / home", project_path(@project) %></li>
+  <li class="active"><%= link_to '新規ストーリー', new_project_story_path(@project) %></li>
+  <li><%= link_to 'メンバー', project_users_path(@project) %></li>
+</ul>

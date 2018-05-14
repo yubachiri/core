@@ -5,7 +5,8 @@
         <%= "#{@project.name}" %> <b class="caret"></b>
       </a>
       <ul class="dropdown-menu">
-        <li><%= link_to "仮置き / #{current_user.name}", '#' %></li>
+        <li><%= link_to "#{@project.name} / home", project_path(@project) %></li>
+        <li><%= link_to "新規ストーリー", new_project_story_path(@project) %></li>
         <li><%= link_to "メンバー", project_users_url(@project) %></li>
       </ul>
     </li>

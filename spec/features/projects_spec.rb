@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature "Projects", type: :feature do
-
-  let(:user) { FactoryGirl.create(:user, :with_project) }
-  let(:other_user) { FactoryGirl.create(:user) }
-  let(:project) { user.projects.first }
+  include_context "project setup"
 
   describe "正常系" do
 
@@ -17,7 +14,7 @@ RSpec.feature "Projects", type: :feature do
       expect(page).to have_css 'title', visible: "#{project.name} | Core"
     end
 
-    scenario "プロジェクトに参加しているメンバーを確認できる" do
+    scenario "プロジェクトに参加しているメンバーを確認できる"do
       # あるプロジェクトにユーザ2名が参加している状態を作る
       other_user.project_members << FactoryGirl.create(
         :project_member,
@@ -28,7 +25,7 @@ RSpec.feature "Projects", type: :feature do
       login user
       visit project_path(project)
 
-      click_link 'メンバー'
+      first(:link, "メンバー").click
       expect(page).to have_css 'a', text: user.name
       expect(page).to have_css 'a', text: other_user.name
     end
@@ -40,7 +37,7 @@ RSpec.feature "Projects", type: :feature do
       click_link 'プロジェクト一覧'
       click_link project.name
       click_on project.name
-      click_link 'メンバー'
+      first(:link, "メンバー").click
       expect {
         click_link 'メンバー招待'
         fill_in :search, with: other_user.email
@@ -60,7 +57,7 @@ RSpec.feature "Projects", type: :feature do
       click_link 'プロジェクト一覧'
       click_link project.name
       click_on project.name
-      click_link 'メンバー'
+      first(:link, "メンバー").click
       click_on other_user.name
       expect { click_on 'プロジェクトから外す' }.to change(ProjectMember, :count).by(-1)
     end

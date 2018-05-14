@@ -1,6 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :show]
-  # before_action :pundit_auth, only: [:index]
+  before_action :authenticate_user!, only: [:index, :show, :create]
   after_action :verify_authorized, only: [:show]
 
   def index

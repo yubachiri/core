@@ -20,8 +20,18 @@
 
             <%= content_tag :div, id: "#{s.id}", class: "panel-collapse collapse" do -%>
               <ul class="list-group">
-                <%= content_tag :li, s.title, class: "list-group-item" %>
-                <%= content_tag :li, s.description, class: "list-group-item" %>
+                <%#= content_tag :li, s.title, class: "list-group-item" %>
+                <%#= content_tag :li, s.description, class: "list-group-item" %>
+                <li class="list-group-item">
+                  <%= form_tag project_story_path(@project, s), method: 'patch' do %>
+                    <%= label_tag "#{s.id}", 'story title', class: 'edit-label' %>
+                    <%= submit_tag '編集確定', class: 'btn btn-primary pull-right edit-btn' %>
+                    <%= text_field_tag "#{s.id}[title]", s.title, class: 'form-control' %>
+                    <%= label_tag s.id, 'description', class: 'edit-label' %>
+                    <%= text_area_tag "#{s.id}[description]", s.description, class: 'form-control', rows: '10' %>
+                    <%= submit_tag '編集確定', class: 'btn btn-primary edit-btn btn-block' %>
+                  <% end %>
+                </li>
               </ul>
             <% end %>
 

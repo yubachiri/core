@@ -6,7 +6,7 @@ RSpec.feature "StoryPosts", type: :feature do
 
   describe "正常系" do
 
-    scenario "プロジェクト参加者は新規ストーリーを追加できる", focus: true do
+    scenario "プロジェクト参加者は新規ストーリーを追加できる" do
       login user
       visit project_path(project)
       click_on project.name
@@ -18,7 +18,7 @@ RSpec.feature "StoryPosts", type: :feature do
       expect(page).to have_content 'new story'
     end
 
-    scenario "プロジェクト参加者はプロジェクトに追加されたストーリーを確認することができる", js: true, focus: true do
+    scenario "プロジェクト参加者はプロジェクトに追加されたストーリーを確認することができる", js: true do
       login user
       visit project_path(project)
       click_on project.name
@@ -33,7 +33,7 @@ RSpec.feature "StoryPosts", type: :feature do
       expect(page).to have_content story.description
     end
 
-    scenario "プロジェクトのストーリー一覧ではそのストーリーに設定されたポイントを確認できる", focus: true do
+    scenario "プロジェクトのストーリー一覧ではそのストーリーに設定されたポイントを確認できる" do
       login user
       visit project_path(project)
       post_story story
@@ -51,10 +51,12 @@ RSpec.feature "StoryPosts", type: :feature do
       fill_in "#{story.id}_title", with: 'edited title'
       fill_in "#{story.id}_description", with: 'edited description'
       select "保留", from: "#{story.id}_importance_#{story.importance}"
+      fill_in "#{story.id}_point", with: '5'
       first(:button, '編集確定').click
       click_on 'edited title'
       expect(page).to have_content 'edited title'
       expect(page).to have_content 'edited description'
+      expect(page).to have_content '5'
     end
 
     scenario "ストーリーは重要度順に並ぶ", js:true do
@@ -131,7 +133,7 @@ RSpec.feature "StoryPosts", type: :feature do
       expect(page).to have_content 'edited description'
     end
 
-    scenario "重要度最下位が存在する時に最下位を新規登録しても正常に動作する", focus: true do
+    scenario "重要度最下位が存在する時に最下位を新規登録しても正常に動作する" do
       login user
       story = FactoryGirl.create(:story, project: project, importance: LOWEST)
       visit project_path(project)

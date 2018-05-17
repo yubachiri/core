@@ -20,10 +20,11 @@ class Story < ApplicationRecord
   end
 
   # 自身と上位優先度の重要度を設定し、モデルを更新する
-  def save_and_update_importance(title, description, importance)
+  def save_and_update_importance(title, description, importance, point)
 
     self.title       = title
     self.description = description
+    self.point       = point
 
     # 重要度が変更されていなければ自身をupdateしreturnする
     if (self.importance.to_i == importance.to_i) || (self.importance.to_i == LOWEST && self.id == importance.to_i)

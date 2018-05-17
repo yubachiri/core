@@ -6,7 +6,7 @@ RSpec.feature "StoryPosts", type: :feature do
 
   describe "正常系" do
 
-    scenario "プロジェクト参加者は新規ストーリーを追加できる" do
+    scenario "プロジェクト参加者は新規ストーリーを追加できる", focus: true do
       login user
       visit project_path(project)
       click_on project.name
@@ -75,9 +75,10 @@ RSpec.feature "StoryPosts", type: :feature do
   end
 
   describe "バグ修正", focus: true do
-    scenario "ストーリー編集の際、重要度設定に自身を選択しても正常に動作する" do
+    scenario "ストーリー編集の際、重要度設定に自身を選択しても正常に動作する", js:true do
       login user
       story = FactoryGirl.create(:story, project: project, importance: LOWEST)
+      other_story = FactoryGirl.create(:story, project: project, importance: story.id)
       visit project_path(project)
       click_on story.title
       fill_in "#{story.id}_title", with: 'edited title'
@@ -118,7 +119,7 @@ RSpec.feature "StoryPosts", type: :feature do
       expect(page).to have_content 'edited description'
     end
 
-    scenario "重要度最下位のストーリーの重要度を上げても正常に動作する" do
+    scenario "重要度最下位のストーリーの重要度を上げても正常に動作する", js:true do
       login user
       story = FactoryGirl.create(:story, project: project, importance: LOWEST)
       other_story = FactoryGirl.create(:story, project: project, importance: story.id)
@@ -127,6 +128,20 @@ RSpec.feature "StoryPosts", type: :feature do
       fill_in "#{story.id}_title", with: 'edited title'
       fill_in "#{story.id}_description", with: 'edited description'
       select other_story.title, from: "#{story.id}_importance_#{story.importance}"
+      first(:button, '編集確定').click
+      click_on 'edited title'
+      expect(page).to have_content 'edited title'
+      expect(page).to have_content 'edited description'
+    end
+
+    scenario "重要度最下位のストーリーの重要度を保留に設定しても正常に動作する" do
+      login user
+      story = FactoryGirl.create(:story, project: project, importance: LOWEST)
+      visit project_path(project)
+      click_on story.title
+      fill_in "#{story.id}_title", with: 'edited title'
+      fill_in "#{story.id}_description", with: 'edited description'
+      select "保留", from: "#{story.id}_importance_#{story.importance}"
       first(:button, '編集確定').click
       click_on 'edited title'
       expect(page).to have_content 'edited title'

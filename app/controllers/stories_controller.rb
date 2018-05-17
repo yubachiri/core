@@ -36,12 +36,6 @@ class StoriesController < ApplicationController
     new_story      = params[story_id]
     original_story = Story.find(story_id)
 
-    # puts "------"
-    # puts story_id
-    # puts original_story.importance
-    # puts new_story
-    # puts "------"
-
     if original_story.save_and_update_importance(new_story[:title], new_story[:description], new_story[:importance][original_story.importance.to_s])
       flash[:success] = "ストーリーを更新しました。"
     else

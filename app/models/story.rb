@@ -10,23 +10,41 @@ class Story < ApplicationRecord
     upper_story = Story.find_by(importance: self.importance)
     Story.transaction do
       self.save!
-      upper_story.update!(importance: self.id)
+      upper_story.update!(importance: self.id) if upper_story.present?
+      return true
     end
+  rescue => e
+    puts e.message
+    return false
   end
 
   # 自身と上位優先度の重要度を設定し、モデルを更新する
   def save_and_update_importance(title, description, importance)
 
-    # 現在の自身の上位ストーリー
-    cur_upper_story = Story.find_by(importance: self.id)
-    cur_upper_story.importance = self.importance if cur_upper_story.present?
-
-    # 編集後の自身の上位ストーリー
-    aft_upper_story = Story.find_by(importance: importance)
-    aft_upper_story.importance = self.id if aft_upper_story.present?
+    # puts "---全部表示する---"
+    #
+    # puts self.id
+    # puts self.importance
+    # puts importance
+    #
+    # puts "-----------------"
 
     self.title       = title
     self.description = description
+
+    # 重要度が変更されていなければ自身をupdateしreturnする
+    if self.importance.to_i == importance.to_i
+      return self.save
+    end
+
+    # 現在の自身の上位ストーリー
+    cur_upper_story            = Story.find_by(importance: self.id)
+    cur_upper_story.importance = self.importance if cur_upper_story.present?
+
+    # 編集後の自身の上位ストーリー
+    aft_upper_story            = Story.find_by(importance: importance)
+    aft_upper_story.importance = self.id if aft_upper_story.present?
+
     if self.id != importance.to_i
       self.importance = importance
     end
@@ -35,10 +53,6 @@ class Story < ApplicationRecord
       self.save!
       cur_upper_story.save! if cur_upper_story.present?
       aft_upper_story.save! if aft_upper_story.present?
-      # puts "--------"
-      # puts "id: #{cur_upper_story.id}, imp: #{cur_upper_story.importance}" if cur_upper_story.present?
-      # puts "id: #{aft_upper_story.id}, imp: #{aft_upper_story.importance}" if aft_upper_story.present?
-      # puts "--------"
     end
     return true
   rescue => e

@@ -6,7 +6,7 @@ RSpec.feature "StoryPosts", type: :feature do
 
   describe "正常系" do
 
-    scenario "プロジェクト参加者は新規ストーリーを追加できる", focus: true do
+    scenario "プロジェクト参加者は新規ストーリーを追加できる" do
       login user
       visit project_path(project)
       click_on project.name
@@ -33,7 +33,7 @@ RSpec.feature "StoryPosts", type: :feature do
       expect(page).to have_content story.description
     end
 
-    scenario "プロジェクト参加者はすでにあるストーリーを編集することができる", focus: true do
+    scenario "プロジェクト参加者はすでにあるストーリーを編集することができる" do
       login user
       story = FactoryGirl.create(:story, project: project, importance: LOWEST)
       visit project_path(project)
@@ -47,7 +47,7 @@ RSpec.feature "StoryPosts", type: :feature do
       expect(page).to have_content 'edited description'
     end
 
-    scenario "ストーリーは重要度順に並ぶ" do
+    scenario "ストーリーは重要度順に並ぶ", js:true do
       login user
       # 一旦４つのストーリーを作る
       # 下→上の順で作る
@@ -56,25 +56,27 @@ RSpec.feature "StoryPosts", type: :feature do
       story_third   = FactoryGirl.create(:story, project: project, importance: story_second.id)
       story_fourth  = FactoryGirl.create(:story, project: project, importance: story_third.id)
 
-      # 2と3の優先順位を変更する
-      Story.transaction do
-        story_second.update!(importance: story_third.id)
-        story_third.update!(importance: story_primary.id)
-      end
+      visit project_path(project)
+      # story_secondの重要度をstory_thirdの一個上にする
+      click_on story_second.title
+      fill_in "#{story_second.id}_title", with: 'edited title'
+      fill_in "#{story_second.id}_description", with: 'edited description'
+      select story_third.title, from: "#{story_second.id}_importance_#{story_second.importance}"
+      first(:button, '編集確定').click
 
       visit project_path(project)
       within('div#project-main') do
         all_a = page.all('a')
-        expect(all_a[0].text).to eq story_primary.title
-        expect(all_a[1].text).to eq story_third.title
-        expect(all_a[2].text).to eq story_second.title
-        expect(all_a[3].text).to eq story_fourth.title
+        expect(all_a[0].text).to eq story_fourth.title
+        expect(all_a[1].text).to eq "edited title"
+        expect(all_a[2].text).to eq story_third.title
+        expect(all_a[3].text).to eq story_primary.title
       end
     end
 
   end
 
-  describe "バグ修正", focus: true do
+  describe "バグ修正" do
     scenario "ストーリー編集の際、重要度設定に自身を選択しても正常に動作する", js:true do
       login user
       story = FactoryGirl.create(:story, project: project, importance: LOWEST)

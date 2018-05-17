@@ -33,13 +33,16 @@ class Story < ApplicationRecord
     self.description = description
 
     # 重要度が変更されていなければ自身をupdateしreturnする
-    if self.importance.to_i == importance.to_i
+    if (self.importance.to_i == importance.to_i) || (self.importance.to_i == LOWEST && self.id == importance.to_i)
+      puts "通過"
       return self.save
     end
 
     # 現在の自身の上位ストーリー
     cur_upper_story            = Story.find_by(importance: self.id)
     cur_upper_story.importance = self.importance if cur_upper_story.present?
+
+    # puts cur_upper_story.importance
 
     # 編集後の自身の上位ストーリー
     aft_upper_story            = Story.find_by(importance: importance)
@@ -48,6 +51,8 @@ class Story < ApplicationRecord
     if self.id != importance.to_i
       self.importance = importance
     end
+
+    # puts self.importance
 
     Story.transaction do
       self.save!

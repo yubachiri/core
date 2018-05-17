@@ -16,6 +16,8 @@ class StoriesController < ApplicationController
     authorize @project, :new_story?
 
     new_story = @project.stories.new(story_params)
+    new_story.point = new_story.point.to_i
+
     if new_story.create_and_update_importance
       flash[:success] = "ストーリーを追加しました。"
       redirect_to project_path(@project)
@@ -48,7 +50,7 @@ class StoriesController < ApplicationController
   private
 
   def story_params
-    params.require(:story).permit(:title, :description, :project_id, :importance)
+    params.require(:story).permit(:title, :description, :project_id, :importance, :point)
   end
 
 end

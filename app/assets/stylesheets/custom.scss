@@ -47,6 +47,17 @@ a.btn#invite-button {
 /*フォーム系*/
 
 div {
+  .new-story-form {
+    #point-label,#point{
+      display: inline;
+    }
+    #point-label{
+      width: 120px;
+    }
+    #point{
+      border:solid 1px #ccc;
+    }
+  }
   #new-member-confirm {
     padding: 5%;
     h2 {

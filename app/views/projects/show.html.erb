@@ -14,6 +14,9 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
+                <% if s.point.present? %>
+                  <i class="fab fa-product-hunt"></i><c><%= s.point %></c>
+                <% end %>
                 <%= link_to "#{s.title}", "##{s.id}", "data-toggle": "collapse" %>
               </h4>
             </div>
@@ -24,12 +27,13 @@
                 <%#= content_tag :li, s.description, class: "list-group-item" %>
                 <li class="list-group-item">
                   <%= form_tag project_story_path(@project, s), method: 'patch' do %>
-                    <%= label_tag "#{s.id}", 'story title', class: 'edit-label' %>
+                    <%= label_tag s.id, 'story title', class: 'edit-label' %>
                     <%= submit_tag '編集確定', class: 'btn btn-primary pull-right edit-btn' %>
                     <%= text_field_tag "#{s.id}[title]", s.title, class: 'form-control' %>
                     <%= label_tag s.id, 'description', class: 'edit-label' %>
                     <%= text_area_tag "#{s.id}[description]", s.description, class: 'form-control', rows: '10' %>
 
+                    <%= label_tag s.id, 'importance', class: 'edit-label' %>
                     <%= collection_select "#{s.id}[importance]", s.importance, @select_importance, :id, :title %>
 
                     <%= submit_tag '編集確定', class: 'btn btn-primary edit-btn btn-block' %>

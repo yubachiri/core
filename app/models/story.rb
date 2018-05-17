@@ -1,6 +1,7 @@
 class Story < ApplicationRecord
   belongs_to :project
   validates_presence_of :title
+  validates :point, numericality: true
   # 重要度度最下位
   LOWEST = -1
 

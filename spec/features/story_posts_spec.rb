@@ -6,7 +6,7 @@ RSpec.feature "StoryPosts", type: :feature do
 
   describe "正常系" do
 
-    scenario "プロジェクト参加者は新規ストーリーを追加できる" do
+    scenario "プロジェクト参加者は新規ストーリーを追加できる", focus: true do
       login user
       visit project_path(project)
       click_on project.name
@@ -18,7 +18,7 @@ RSpec.feature "StoryPosts", type: :feature do
       expect(page).to have_content 'new story'
     end
 
-    scenario "プロジェクト参加者はプロジェクトに追加されたストーリーを確認することができる", js: true do
+    scenario "プロジェクト参加者はプロジェクトに追加されたストーリーを確認することができる", js: true, focus: true do
       login user
       visit project_path(project)
       click_on project.name
@@ -31,6 +31,16 @@ RSpec.feature "StoryPosts", type: :feature do
       sleep 1
       # タイトルをクリックすると詳細がcollapseで表示されることを確認する
       expect(page).to have_content story.description
+    end
+
+    scenario "プロジェクトのストーリー一覧ではそのストーリーに設定されたポイントを確認できる", focus: true do
+      login user
+      visit project_path(project)
+      post_story story
+      within('div#project-main') do
+        all_c = page.all('c')
+        expect(all_c[0].text).to eq "#{story.point}"
+      end
     end
 
     scenario "プロジェクト参加者はすでにあるストーリーを編集することができる" do
@@ -92,35 +102,6 @@ RSpec.feature "StoryPosts", type: :feature do
       expect(page).to have_content 'edited description'
     end
 
-    scenario "重要度最下位が存在する時に最下位を新規登録しても正常に動作する" do
-      login user
-      story = FactoryGirl.create(:story, project: project, importance: LOWEST)
-      visit project_path(project)
-      first(:link, "新規ストーリー").click
-      fill_in :story_title, with: 'new story'
-      fill_in :story_description, with: 'description of new story'
-      select "保留", from: "story_importance"
-      click_on "作成"
-      click_on 'new story'
-      expect(page).to have_content 'new story'
-      expect(page).to have_content 'description of new story'
-    end
-
-    scenario "重要度最下位が存在する時に既存ストーリーの重要度を最下位に変更しても正常に動作する" do
-      login user
-      story = FactoryGirl.create(:story, project: project, importance: LOWEST)
-      other_story = FactoryGirl.create(:story, project: project, importance: story.id)
-      visit project_path(project)
-      click_on other_story.title
-      fill_in "#{other_story.id}_title", with: 'edited title'
-      fill_in "#{other_story.id}_description", with: 'edited description'
-      select "保留", from: "#{other_story.id}_importance_#{other_story.importance}"
-      first(:button, '編集確定').click
-      click_on 'edited title'
-      expect(page).to have_content 'edited title'
-      expect(page).to have_content 'edited description'
-    end
-
     scenario "重要度最下位のストーリーの重要度を上げても正常に動作する", js:true do
       login user
       story = FactoryGirl.create(:story, project: project, importance: LOWEST)
@@ -150,6 +131,35 @@ RSpec.feature "StoryPosts", type: :feature do
       expect(page).to have_content 'edited description'
     end
 
+    scenario "重要度最下位が存在する時に最下位を新規登録しても正常に動作する", focus: true do
+      login user
+      story = FactoryGirl.create(:story, project: project, importance: LOWEST)
+      visit project_path(project)
+      first(:link, "新規ストーリー").click
+      fill_in :story_title, with: 'new story'
+      fill_in :story_description, with: 'description of new story'
+      select "保留", from: "story_importance"
+      click_on "作成"
+      click_on 'new story'
+      expect(page).to have_content 'new story'
+      expect(page).to have_content 'description of new story'
+    end
+
+    scenario "重要度最下位が存在する時に既存ストーリーの重要度を最下位に変更しても正常に動作する" do
+      login user
+      story = FactoryGirl.create(:story, project: project, importance: LOWEST)
+      other_story = FactoryGirl.create(:story, project: project, importance: story.id)
+      visit project_path(project)
+      click_on other_story.title
+      fill_in "#{other_story.id}_title", with: 'edited title'
+      fill_in "#{other_story.id}_description", with: 'edited description'
+      select "保留", from: "#{other_story.id}_importance_#{other_story.importance}"
+      first(:button, '編集確定').click
+      click_on 'edited title'
+      expect(page).to have_content 'edited title'
+      expect(page).to have_content 'edited description'
+    end
+
   end
 
 # ストーリーを渡すと新規作成してくれる
@@ -157,6 +167,8 @@ RSpec.feature "StoryPosts", type: :feature do
     first(:link, "新規ストーリー").click
     fill_in :story_title, with: story.title
     fill_in :story_description, with: story.description
+    select "保留", from: "story_importance"
+    fill_in :point, with: story.point
     click_on '作成'
   end
 

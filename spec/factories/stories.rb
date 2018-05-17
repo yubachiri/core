@@ -8,6 +8,9 @@ FactoryGirl.define do
     sequence :description do |n|
       "test story's description #{n}"
     end
+    sequence :point do |n|
+      n
+    end
     project nil
     importance nil
   end

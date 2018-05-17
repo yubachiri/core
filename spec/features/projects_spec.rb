@@ -39,7 +39,7 @@ RSpec.feature "Projects", type: :feature do
       click_on project.name
       first(:link, "メンバー").click
       expect {
-        click_link 'メンバー招待'
+        click_on 'メンバー招待'
         fill_in :search, with: other_user.email
         find_button('招待').click
         sleep 2

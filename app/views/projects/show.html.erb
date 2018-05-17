@@ -9,7 +9,7 @@
     <ul class="list-group">
 
       <div class="panel-group">
-        <% @stories.each do |s| %>
+        <% @ordered_stories.each do |s| %>
 
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -29,6 +29,9 @@
                     <%= text_field_tag "#{s.id}[title]", s.title, class: 'form-control' %>
                     <%= label_tag s.id, 'description', class: 'edit-label' %>
                     <%= text_area_tag "#{s.id}[description]", s.description, class: 'form-control', rows: '10' %>
+
+                    <%= collection_select "#{s.id}[importance]", s.importance, @select_importance, :id, :title %>
+
                     <%= submit_tag '編集確定', class: 'btn btn-primary edit-btn btn-block' %>
                   <% end %>
                 </li>

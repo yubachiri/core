@@ -14,7 +14,7 @@ class ProjectsController < ApplicationController
     new_project = current_user.projects.build(name: params[:project_name])
     if new_project.save
       new_project.project_members.create(
-        user_id: new_project.user_id,
+        user_id:   new_project.user_id,
         admin_flg: true)
       flash[:success] = "プロジェクトを作成しました。"
     else
@@ -27,7 +27,8 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params[:id])
     authorize @project
-    @stories = @project.stories.all
+    @ordered_stories = Story.make_stories_array @project
+    @select_importance = @ordered_stories.clone << Story.new(id: Story::LOWEST, title: '保留')
   end
 
 end

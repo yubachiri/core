@@ -9,5 +9,6 @@ FactoryGirl.define do
       "test story's description #{n}"
     end
     project nil
+    importance nil
   end
 end

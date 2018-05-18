@@ -11,7 +11,7 @@ class Story < ApplicationRecord
   # 重要度設定をし、ストーリーを新規登録する
   def create_and_update_importance
     # 選択したストーリーの上位に設定されているストーリーを取得する
-    upper_story = Story.find_by(importance: self.importance)
+    upper_story = Story.find_by(importance: self.importance, progress_status: Story.progress_statuses[:iced])
     Story.transaction do
       self.save!
       upper_story.update!(importance: self.id) if upper_story.present?
@@ -57,19 +57,24 @@ class Story < ApplicationRecord
     return false
   end
 
-  # 進行状況を進行中に変更する
-  def update_status_to_in_progress
-    # 現在の自身の上位ストーリー
+  # アイス/バックを切り替える
+  def update_status_to_other
+
+    if self.iced?
+      stat_afer_change = Story.progress_statuses[:in_progress]
+    elsif self.in_progress?
+      stat_afer_change = Story.progress_statuses[:iced]
+    end
+
     cur_upper_story            = Story.find_by(importance: self.id)
     cur_upper_story.importance = self.importance if cur_upper_story.present?
 
-    # 編集後の自身の上位ストーリー
-    # 自身を最下位に追加するため、現在最下位のストーリーを更新する
-    aft_upper_story            = Story.find_by(importance: LOWEST, progress_status: Story.progress_statuses[:in_progress])
+    # 自身を最下位に追加するため、変更後ステータスで現在最下位のストーリーを更新する
+    aft_upper_story            = Story.find_by(importance: LOWEST, progress_status: stat_afer_change)
     aft_upper_story.importance = self.id if aft_upper_story.present?
 
     Story.transaction do
-      self.update!(progress_status: Story.progress_statuses[:in_progress], importance: LOWEST)
+      self.update!(progress_status: stat_afer_change, importance: LOWEST)
       cur_upper_story.save! if cur_upper_story.present?
       aft_upper_story.save! if aft_upper_story.present?
     end
@@ -78,9 +83,10 @@ class Story < ApplicationRecord
     return false
   end
 
+
   class << self
 
-    # 引数のプロジェクトのストーリーを重要度順の配列にして返す
+    # 引数のプロジェクトのicedストーリーを重要度順の配列で返す
     def make_iced_stories_array(project)
       @ordered_iced_stories = Array.new()
       # importanceが-1となっているストーリーが最も優先度が低い
@@ -96,9 +102,9 @@ class Story < ApplicationRecord
       @ordered_iced_stories
     end
 
+    # 引数のプロジェクトのin_progressストーリーを重要度順の配列で返す
     def make_in_progress_stories_array(project)
       @ordered_in_progress_stories = Array.new()
-      # importanceが-1となっているストーリーが最も優先度が低い
       if last_story = project.stories.find_by(importance: LOWEST, progress_status: Story.progress_statuses[:in_progress])
         @ordered_in_progress_stories << last_story
 

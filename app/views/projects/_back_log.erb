@@ -2,15 +2,15 @@
   <ul class="list-group">
 
     <div class="panel-group">
-      <h4>Back Log</h4>
+      <h4>Backlog</h4>
       <% if @ordered_in_progress_stories.nil? %>
-        <p>Back Log is empty</p>
+        <p>Backlog is empty</p>
       <% else %>
         <% @ordered_in_progress_stories.each do |ps| %>
 
           <div class="panel panel-default">
             <div class="panel-heading">
-              <%= link_to 'バックログへ', update_status_project_story_path(@project, ps.id), class: 'btn btn-primary to-backlog-btn input-sm pull-right', id: "#{ps.id}_to_backlog", method: 'patch' %>
+              <%= link_to 'アイスボックスへ', update_status_project_story_path(@project, ps.id), class: 'btn btn-primary to-backlog-btn input-sm pull-right', id: "#{ps.id}_to_icebox", method: 'patch' %>
               <h4 class="panel-title">
                 <% if ps.point.present? %>
                   <i class="fab fa-product-hunt"></i>

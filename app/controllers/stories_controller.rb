@@ -15,8 +15,8 @@ class StoriesController < ApplicationController
   def create
     authorize @project, :new_story?
 
-    new_story = @project.stories.new(story_params)
-    new_story.point = new_story.point.to_i
+    new_story                 = @project.stories.new(story_params)
+    new_story.point           = new_story.point.to_i
     new_story.progress_status = Story.progress_statuses[:iced]
 
     if new_story.create_and_update_importance
@@ -47,12 +47,10 @@ class StoriesController < ApplicationController
     redirect_to project_path(@project)
   end
 
+  # ストーリーの進行状況ステータスを更新する
   def update_status
-    # story_id       = params[:id]
-    # new_story      = params[story_id]
     target_story = Story.find(params[:id])
-    target_story.update_status_to_in_progress
-    # target_story.update(progress_status: Story.progress_status[:in_progress])
+    target_story.update_status_to_other
 
     redirect_to project_path(@project)
   end

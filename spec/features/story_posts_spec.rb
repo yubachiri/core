@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature "StoryPosts", type: :feature do
   LOWEST = -1
-  ICE_BOX = 'div#ice-box'
+  ICE_BOX = 'div#icebox'
   include_context "project setup"
 
   describe "正常系" do

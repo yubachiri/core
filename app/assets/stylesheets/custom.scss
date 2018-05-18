@@ -34,6 +34,9 @@ div {
     margin-top: 10px;
     margin-left: 10px;
   }
+  #ice-box-under-middle{
+    margin-left: 215px;
+  }
   .wrap-project-showpage {
     margin-left: 10px;
   }
@@ -85,6 +88,10 @@ div {
     .btn {
       padding: 3px 12px;
     }
+  }
+  .to-backlog-btn{
+    position: relative;
+    bottom: 6px;
   }
 }
 

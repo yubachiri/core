@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.feature "StoryPosts", type: :feature do
   LOWEST = -1
+  ICE_BOX = 'div#ice-box'
   include_context "project setup"
 
   describe "正常系" do
@@ -37,29 +38,31 @@ RSpec.feature "StoryPosts", type: :feature do
       login user
       visit project_path(project)
       post_story story
-      within('div#ice-box') do
+      within(ICE_BOX) do
         all_c = page.all('c')
         expect(all_c[0].text).to eq "#{story.point}"
       end
     end
 
-    scenario "プロジェクト参加者はすでにあるストーリーを編集することができる" do
+    scenario "プロジェクト参加者はすでにあるストーリーを編集することができる", js: true do
       login user
       story = FactoryGirl.create(:story, project: project, importance: LOWEST)
       visit project_path(project)
-      click_on story.title
-      fill_in "#{story.id}_title", with: 'edited title'
-      fill_in "#{story.id}_description", with: 'edited description'
-      select "保留", from: "#{story.id}_importance_#{story.importance}"
-      fill_in "#{story.id}_point", with: '5'
-      first(:button, '編集確定').click
-      click_on 'edited title'
-      expect(page).to have_content 'edited title'
-      expect(page).to have_content 'edited description'
-      expect(page).to have_content '5'
+      within(ICE_BOX) do
+        click_on story.title
+        fill_in "#{story.id}_title", with: 'edited title'
+        fill_in "#{story.id}_description", with: 'edited description'
+        select "保留", from: "#{story.id}_importance_#{story.importance}"
+        fill_in "#{story.id}_point", with: '5'
+        first(:button, '編集確定').click
+        click_on 'edited title'
+        expect(page).to have_content 'edited title'
+        expect(page).to have_content 'edited description'
+        expect(page).to have_content '5'
+      end
     end
 
-    scenario "ストーリーは重要度順に並ぶ", js:true do
+    scenario "ストーリーは重要度順に並ぶ", js: true do
       login user
       # 一旦４つのストーリーを作る
       # 下→上の順で作る
@@ -77,21 +80,21 @@ RSpec.feature "StoryPosts", type: :feature do
       first(:button, '編集確定').click
 
       visit project_path(project)
-      within('div#ice-box') do
+      within(ICE_BOX) do
         all_a = page.all('a')
-        expect(all_a[0].text).to eq story_fourth.title
-        expect(all_a[1].text).to eq "edited title"
-        expect(all_a[2].text).to eq story_third.title
-        expect(all_a[3].text).to eq story_primary.title
+        expect(all_a[1].text).to eq story_fourth.title
+        expect(all_a[3].text).to eq "edited title"
+        expect(all_a[5].text).to eq story_third.title
+        expect(all_a[7].text).to eq story_primary.title
       end
     end
 
   end
 
   describe "バグ修正" do
-    scenario "ストーリー編集の際、重要度設定に自身を選択しても正常に動作する", js:true do
+    scenario "ストーリー編集の際、重要度設定に自身を選択しても正常に動作する", js: true do
       login user
-      story = FactoryGirl.create(:story, project: project, importance: LOWEST)
+      story       = FactoryGirl.create(:story, project: project, importance: LOWEST)
       other_story = FactoryGirl.create(:story, project: project, importance: story.id)
       visit project_path(project)
       click_on story.title
@@ -104,33 +107,37 @@ RSpec.feature "StoryPosts", type: :feature do
       expect(page).to have_content 'edited description'
     end
 
-    scenario "重要度最下位のストーリーの重要度を上げても正常に動作する", js:true do
+    scenario "重要度最下位のストーリーの重要度を上げても正常に動作する", js: true do
       login user
-      story = FactoryGirl.create(:story, project: project, importance: LOWEST)
+      story       = FactoryGirl.create(:story, project: project, importance: LOWEST)
       other_story = FactoryGirl.create(:story, project: project, importance: story.id)
       visit project_path(project)
-      click_on story.title
-      fill_in "#{story.id}_title", with: 'edited title'
-      fill_in "#{story.id}_description", with: 'edited description'
-      select other_story.title, from: "#{story.id}_importance_#{story.importance}"
-      first(:button, '編集確定').click
-      click_on 'edited title'
-      expect(page).to have_content 'edited title'
-      expect(page).to have_content 'edited description'
+      within(ICE_BOX) do
+        click_on story.title
+        fill_in "#{story.id}_title", with: 'edited title'
+        fill_in "#{story.id}_description", with: 'edited description'
+        select other_story.title, from: "#{story.id}_importance_#{story.importance}"
+        first(:button, '編集確定').click
+        click_on 'edited title'
+        expect(page).to have_content 'edited title'
+        expect(page).to have_content 'edited description'
+      end
     end
 
-    scenario "重要度最下位のストーリーの重要度を保留に設定しても正常に動作する" do
+    scenario "重要度最下位のストーリーの重要度を保留に設定しても正常に動作する", js: true do
       login user
       story = FactoryGirl.create(:story, project: project, importance: LOWEST)
       visit project_path(project)
-      click_on story.title
-      fill_in "#{story.id}_title", with: 'edited title'
-      fill_in "#{story.id}_description", with: 'edited description'
-      select "保留", from: "#{story.id}_importance_#{story.importance}"
-      first(:button, '編集確定').click
-      click_on 'edited title'
-      expect(page).to have_content 'edited title'
-      expect(page).to have_content 'edited description'
+      within(ICE_BOX) do
+        click_on story.title
+        fill_in "#{story.id}_title", with: 'edited title'
+        fill_in "#{story.id}_description", with: 'edited description'
+        select "保留", from: "#{story.id}_importance_#{story.importance}"
+        first(:button, '編集確定').click
+        click_on 'edited title'
+        expect(page).to have_content 'edited title'
+        expect(page).to have_content 'edited description'
+      end
     end
 
     scenario "重要度最下位が存在する時に最下位を新規登録しても正常に動作する" do
@@ -142,36 +149,30 @@ RSpec.feature "StoryPosts", type: :feature do
       fill_in :story_description, with: 'description of new story'
       select "保留", from: "story_importance"
       click_on "作成"
-      click_on 'new story'
-      expect(page).to have_content 'new story'
-      expect(page).to have_content 'description of new story'
+      within(ICE_BOX) do
+        click_on 'new story'
+        expect(page).to have_content 'new story'
+        expect(page).to have_content 'description of new story'
+      end
     end
 
-    scenario "重要度最下位が存在する時に既存ストーリーの重要度を最下位に変更しても正常に動作する" do
+    scenario "重要度最下位が存在する時に既存ストーリーの重要度を最下位に変更しても正常に動作する", js: true do
       login user
-      story = FactoryGirl.create(:story, project: project, importance: LOWEST)
+      story       = FactoryGirl.create(:story, project: project, importance: LOWEST)
       other_story = FactoryGirl.create(:story, project: project, importance: story.id)
       visit project_path(project)
-      click_on other_story.title
-      fill_in "#{other_story.id}_title", with: 'edited title'
-      fill_in "#{other_story.id}_description", with: 'edited description'
-      select "保留", from: "#{other_story.id}_importance_#{other_story.importance}"
-      first(:button, '編集確定').click
-      click_on 'edited title'
-      expect(page).to have_content 'edited title'
-      expect(page).to have_content 'edited description'
+      within(ICE_BOX) do
+        click_on other_story.title
+        fill_in "#{other_story.id}_title", with: 'edited title'
+        fill_in "#{other_story.id}_description", with: 'edited description'
+        select "保留", from: "#{other_story.id}_importance_#{other_story.importance}"
+        first(:button, '編集確定').click
+        click_on 'edited title'
+        expect(page).to have_content 'edited title'
+        expect(page).to have_content 'edited description'
+      end
     end
 
-  end
-
-# ストーリーを渡すと新規作成してくれる
-  def post_story(story)
-    first(:link, "新規ストーリー").click
-    fill_in :story_title, with: story.title
-    fill_in :story_description, with: story.description
-    select "保留", from: "story_importance"
-    fill_in :point, with: story.point
-    click_on '作成'
   end
 
 end

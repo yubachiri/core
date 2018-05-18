@@ -1,0 +1,60 @@
+<div class="wrap-project-showpage">
+  <ul class="list-group">
+
+    <div class="panel-group">
+      <h4>Back Log</h4>
+      <% if @ordered_in_progress_stories.nil? %>
+        <p>Back Log is empty</p>
+      <% else %>
+        <% @ordered_in_progress_stories.each do |ps| %>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <%= link_to 'バックログへ', update_status_project_story_path(@project, ps.id), class: 'btn btn-primary to-backlog-btn input-sm pull-right', id: "#{ps.id}_to_backlog", method: 'patch' %>
+              <h4 class="panel-title">
+                <% if ps.point.present? %>
+                  <i class="fab fa-product-hunt"></i>
+                  <c><%= ps.point %></c>
+                <% end %>
+                <%= link_to "#{ps.title}", "##{ps.id}", "data-toggle": "collapse" %>
+              </h4>
+
+            </div>
+
+            <%= content_tag :div, id: "#{ps.id}", class: "panel-collapse collapse" do -%>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <%= form_tag project_story_path(@project, ps), method: 'patch' do %>
+                    <div class="form-group">
+                      <%= label_tag ps.id, 'story title', class: 'edit-label' %>
+                      <%= submit_tag '編集確定', class: 'btn btn-primary pull-right edit-btn' %>
+                      <%= text_field_tag "#{ps.id}[title]", ps.title, class: 'form-control' %>
+                    </div>
+                    <div class="form-group">
+                      <%= label_tag ps.id, 'description', class: 'edit-label' %>
+                      <%= text_area_tag "#{ps.id}[description]", ps.description, class: 'form-control', rows: '10' %>
+                    </div>
+                    <div class="form-group">
+                      <%= label_tag ps.id, 'importance', class: 'edit-label' %>
+                      <%= collection_select "#{ps.id}[importance]", ps.importance, @in_pr_select_importance, :id, :title %>
+                    </div>
+                    <div class="form-group">
+                      <%= label_tag ps.id, 'point(number only)', class: 'edit-label', id: 'point-label' %>
+                      <%= text_field_tag "#{ps.id}[point]", ps.point, class: 'input-sm' %>
+                    </div>
+                    <%= submit_tag '編集確定', class: 'btn btn-primary edit-btn btn-block' %>
+                  <% end %>
+                </li>
+              </ul>
+            <% end %>
+
+          </div>
+        <% end %>
+
+      <% end %>
+
+    </div>
+
+  </ul>
+
+</div>

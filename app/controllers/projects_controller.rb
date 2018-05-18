@@ -27,11 +27,17 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params[:id])
     authorize @project
-    @ordered_stories = Story.make_stories_array @project
-    if @ordered_stories.count.zero?
-      @ordered_stories = nil
+    @ordered_iced_stories        = Story.make_iced_stories_array @project
+    @ordered_in_progress_stories = Story.make_in_progress_stories_array @project
+    if @ordered_iced_stories.count.zero?
+      @ordered_iced_stories = nil
     else
-      @select_importance = @ordered_stories.clone << Story.new(id: Story::LOWEST, title: '保留')
+      @select_importance = @ordered_iced_stories.clone << Story.new(id: Story::LOWEST, title: '保留')
+    end
+    if @ordered_in_progress_stories.count.zero?
+      @ordered_in_progress_stories = nil
+    else
+      @in_pr_select_importance = @ordered_in_progress_stories.clone << Story.new(id: Story::LOWEST, title: '保留')
     end
   end
 

@@ -13,5 +13,6 @@ FactoryGirl.define do
     end
     project nil
     importance nil
+    progress_status 'iced'
   end
 end

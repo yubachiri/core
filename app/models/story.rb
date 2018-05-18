@@ -2,6 +2,9 @@ class Story < ApplicationRecord
   belongs_to :project
   validates_presence_of :title
   validates :point, numericality: true
+
+  # 進捗状況管理ステータス
+  enum progress_status: [:iced, :in_progress, :done]
   # 重要度度最下位
   LOWEST = -1
 
@@ -20,11 +23,11 @@ class Story < ApplicationRecord
   end
 
   # 自身と上位優先度の重要度を設定し、モデルを更新する
-  def save_and_update_importance(title, description, importance, point)
-
-    self.title       = title
-    self.description = description
-    self.point       = point
+  def save_and_update_importance(title, description, importance, point, progress_status)
+    self.title           = title
+    self.description     = description
+    self.point           = point
+    self.progress_status = progress_status
 
     # 重要度が変更されていなければ自身をupdateしreturnする
     if (self.importance.to_i == importance.to_i) || (self.importance.to_i == LOWEST && self.id == importance.to_i)
@@ -54,22 +57,56 @@ class Story < ApplicationRecord
     return false
   end
 
+  # 進行状況を進行中に変更する
+  def update_status_to_in_progress
+    # 現在の自身の上位ストーリー
+    cur_upper_story            = Story.find_by(importance: self.id)
+    cur_upper_story.importance = self.importance if cur_upper_story.present?
+
+    # 編集後の自身の上位ストーリー
+    # 自身を最下位に追加するため、現在最下位のストーリーを更新する
+    aft_upper_story            = Story.find_by(importance: LOWEST, progress_status: Story.progress_statuses[:in_progress])
+    aft_upper_story.importance = self.id if aft_upper_story.present?
+
+    Story.transaction do
+      self.update!(progress_status: Story.progress_statuses[:in_progress], importance: LOWEST)
+      cur_upper_story.save! if cur_upper_story.present?
+      aft_upper_story.save! if aft_upper_story.present?
+    end
+  rescue => e
+    puts e.message
+    return false
+  end
+
   class << self
 
     # 引数のプロジェクトのストーリーを重要度順の配列にして返す
-    def make_stories_array(project)
-      @ordered_stories = Array.new()
+    def make_iced_stories_array(project)
+      @ordered_iced_stories = Array.new()
       # importanceが-1となっているストーリーが最も優先度が低い
-      if last_story = project.stories.find_by(importance: LOWEST)
-        @ordered_stories << last_story
+      if last_story = project.stories.find_by(importance: LOWEST, progress_status: Story.progress_statuses[:iced])
+        @ordered_iced_stories << last_story
 
-        until @ordered_stories.count == project.stories.count
+        until @ordered_iced_stories.count == project.stories.where(progress_status: Story.progress_statuses[:iced]).count
           # 配列の先頭のidでimportanceを検索することで、一つ上位の優先度となるストーリーを取得し、
           # 配列の先頭に追加する
-          @ordered_stories.unshift project.stories.find_by(importance: @ordered_stories.first.id)
+          @ordered_iced_stories.unshift project.stories.find_by(importance: @ordered_iced_stories.first.id)
         end
       end
-      @ordered_stories
+      @ordered_iced_stories
+    end
+
+    def make_in_progress_stories_array(project)
+      @ordered_in_progress_stories = Array.new()
+      # importanceが-1となっているストーリーが最も優先度が低い
+      if last_story = project.stories.find_by(importance: LOWEST, progress_status: Story.progress_statuses[:in_progress])
+        @ordered_in_progress_stories << last_story
+
+        until @ordered_in_progress_stories.count == project.stories.where(progress_status: Story.progress_statuses[:in_progress]).count
+          @ordered_in_progress_stories.unshift project.stories.find_by(importance: @ordered_in_progress_stories.first.id)
+        end
+      end
+      @ordered_in_progress_stories
     end
   end
 

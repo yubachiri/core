@@ -4,71 +4,12 @@
   <%= render 'shared/sidebar' %>
 </div>
 <div class="col-xs-5 well" id="back-log">
-  <h4>Back Log</h4>
-  <% if @ordered_backlog_stories.nil? %>
-    <p>Back Log is empty</p>
-  <% else %>
-  <% end %>
+  <%= render 'projects/back_log' %>
 </div>
+<!--画面サイズによって表示箇所を制御する-->
 <div class="col-xs-5 visible-lg well" id="ice-box">
-  
-  <div class="wrap-project-showpage">
-    <ul class="list-group">
-
-      <div class="panel-group">
-        <h4>Ice Box</h4>
-        <% if @ordered_stories.nil? %>
-          <p>Ice Box is empty</p>
-        <% else %>
-          <% @ordered_stories.each do |s| %>
-
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  <% if s.point.present? %>
-                    <i class="fab fa-product-hunt"></i>
-                    <c><%= s.point %></c>
-                  <% end %>
-                  <%= link_to "#{s.title}", "##{s.id}", "data-toggle": "collapse" %>
-                </h4>
-              </div>
-
-              <%= content_tag :div, id: "#{s.id}", class: "panel-collapse collapse" do -%>
-                <ul class="list-group">
-                  <li class="list-group-item">
-                    <%= form_tag project_story_path(@project, s), method: 'patch' do %>
-                      <div class="form-group">
-                        <%= label_tag s.id, 'story title', class: 'edit-label' %>
-                        <%= submit_tag '編集確定', class: 'btn btn-primary pull-right edit-btn' %>
-                        <%= text_field_tag "#{s.id}[title]", s.title, class: 'form-control' %>
-                      </div>
-                      <div class="form-group">
-                        <%= label_tag s.id, 'description', class: 'edit-label' %>
-                        <%= text_area_tag "#{s.id}[description]", s.description, class: 'form-control', rows: '10' %>
-                      </div>
-                      <div class="form-group">
-                        <%= label_tag s.id, 'importance', class: 'edit-label' %>
-                        <%= collection_select "#{s.id}[importance]", s.importance, @select_importance, :id, :title %>
-                      </div>
-                      <div class="form-group">
-                        <%= label_tag s.id, 'point(number only)', class: 'edit-label', id: 'point-label' %>
-                        <%= text_field_tag "#{s.id}[point]", s.point, class: 'input-sm' %>
-                      </div>
-                      <%= submit_tag '編集確定', class: 'btn btn-primary edit-btn btn-block' %>
-                    <% end %>
-                  </li>
-                </ul>
-              <% end %>
-
-            </div>
-          <% end %>
-
-        <% end %>
-
-      </div>
-
-    </ul>
-
-  </div>
-
+  <%= render 'projects/ice_box' %>
+</div>
+<div class="col-xs-5 hidden-lg well" id="ice-box-under-middle">
+  <%= render 'projects/ice_box' %>
 </div>

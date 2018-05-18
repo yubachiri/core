@@ -37,7 +37,7 @@ RSpec.feature "StoryPosts", type: :feature do
       login user
       visit project_path(project)
       post_story story
-      within('div#project-main') do
+      within('div#ice-box') do
         all_c = page.all('c')
         expect(all_c[0].text).to eq "#{story.point}"
       end
@@ -77,7 +77,7 @@ RSpec.feature "StoryPosts", type: :feature do
       first(:button, '編集確定').click
 
       visit project_path(project)
-      within('div#project-main') do
+      within('div#ice-box') do
         all_a = page.all('a')
         expect(all_a[0].text).to eq story_fourth.title
         expect(all_a[1].text).to eq "edited title"

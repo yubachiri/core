@@ -4,11 +4,11 @@ class StoriesController < ApplicationController
   def new
     @new_story = Story.new
     @project   = Project.find(params[:project_id])
+    authorize @project, :new_story?
 
     @ordered_stories = Story.make_stories_array @project
     # ストーリー配列の末尾に、そのストーリーの優先度を最低にするための選択肢を追加する
     @ordered_stories << Story.new(id: Story::LOWEST, title: '保留')
-    authorize @project, :new_story?
   end
 
   def create

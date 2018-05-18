@@ -28,7 +28,11 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     authorize @project
     @ordered_stories = Story.make_stories_array @project
-    @select_importance = @ordered_stories.clone << Story.new(id: Story::LOWEST, title: '保留')
+    if @ordered_stories.count.zero?
+      @ordered_stories = nil
+    else
+      @select_importance = @ordered_stories.clone << Story.new(id: Story::LOWEST, title: '保留')
+    end
   end
 
 end

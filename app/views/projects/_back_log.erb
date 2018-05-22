@@ -10,13 +10,19 @@
 
           <div class="panel panel-default">
             <div class="panel-heading">
-              <%= link_to 'アイスボックスへ', update_status_project_story_path(@project, ps.id), class: 'btn btn-primary to-backlog-btn input-sm pull-right', id: "#{ps.id}_to_icebox", method: 'patch' %>
+
               <h4 class="panel-title">
                 <% if ps.point.present? %>
                   <i class="fab fa-product-hunt"></i>
                   <c><%= ps.point %></c>
                 <% end %>
                 <%= link_to "#{ps.title}", "##{ps.id}", "data-toggle": "collapse" %>
+                <% if ps.accept? && !@project.project_members.find_by(user: current_user).admin_flg? %>
+                  <%= link_to "#{ps.workflow}", '#', class: 'btn btn-default pull-right edit-btn', id: 'workflow-btn', disabled: true %>
+                <% else %>
+                  <%= link_to "#{ps.workflow}", update_workflow_project_story_path(@project, ps), class: "btn btn-default pull-right edit-btn", id: "workflow-btn", method: "patch" %>
+                <% end %>
+
               </h4>
 
             </div>
@@ -27,7 +33,11 @@
                   <%= form_tag project_story_path(@project, ps), method: 'patch' do %>
                     <div class="form-group">
                       <%= label_tag ps.id, 'story title', class: 'edit-label' %>
+
                       <%= submit_tag '編集確定', class: 'btn btn-primary pull-right edit-btn' %>
+
+                      <%= link_to 'アイスボックスへ', update_status_project_story_path(@project, ps.id), class: 'btn btn-primary to-icebox-btn input-sm pull-right', id: "#{ps.id}_to_icebox", method: 'patch' %>
+
                       <%= text_field_tag "#{ps.id}[title]", ps.title, class: 'form-control' %>
                     </div>
                     <div class="form-group">
@@ -40,7 +50,7 @@
                     </div>
                     <div class="form-group">
                       <%= label_tag ps.id, 'point(number only)', class: 'edit-label', id: 'point-label' %>
-                      <%= text_field_tag "#{ps.id}[point]", ps.point, class: 'input-sm' %>
+                      <%= text_field_tag "#{ps.id}[point]", ps.point, class: 'input-sm', maxlength: 3 %>
                     </div>
                     <%= submit_tag '編集確定', class: 'btn btn-primary edit-btn btn-block' %>
                   <% end %>

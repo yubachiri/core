@@ -93,11 +93,22 @@ div {
     position: relative;
     bottom: 6px;
   }
+  .to-icebox-btn{
+    margin-top: 3px;
+    margin-right: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
 }
 
 .edit-btn {
   padding: 4px 20px 4px 20px;
   margin: 3px 0px 3px 0px;
+}
+
+#workflow-btn{
+  position: relative;
+  bottom: 9px;
 }
 
 .edit-label {

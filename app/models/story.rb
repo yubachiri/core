@@ -1,17 +1,19 @@
 class Story < ApplicationRecord
   belongs_to :project
   validates_presence_of :title
-  validates :point, numericality: true
+  validates :point, numericality: true, length: { maximum: 3 }
 
   # 進捗状況管理ステータス
   enum progress_status: [:iced, :in_progress, :done]
+  # ワークフロー管理
+  enum workflow: [:start, :finish, :accept, :completed]
   # 重要度度最下位
   LOWEST = -1
 
-  # 重要度設定をし、ストーリーを新規登録する
+  # 重要度設定をし、モデルを新規登録する
   def create_and_update_importance
     # 選択したストーリーの上位に設定されているストーリーを取得する
-    upper_story = Story.find_by(importance: self.importance, progress_status: Story.progress_statuses[:iced])
+    upper_story = Story.find_by(importance: self.importance, progress_status: Story.progress_statuses[:iced], project_id: self.project_id)
     Story.transaction do
       self.save!
       upper_story.update!(importance: self.id) if upper_story.present?
@@ -35,11 +37,11 @@ class Story < ApplicationRecord
     end
 
     # 現在の自身の上位ストーリー
-    cur_upper_story            = Story.find_by(importance: self.id)
+    cur_upper_story            = Story.find_by(importance: self.id, project_id: self.project_id)
     cur_upper_story.importance = self.importance if cur_upper_story.present?
 
     # 編集後の自身の上位ストーリー
-    aft_upper_story            = Story.find_by(importance: importance)
+    aft_upper_story            = Story.find_by(importance: importance, project_id: self.project_id)
     aft_upper_story.importance = self.id if aft_upper_story.present?
 
     if self.id != importance.to_i
@@ -61,20 +63,20 @@ class Story < ApplicationRecord
   def update_status_to_other
 
     if self.iced?
-      stat_afer_change = Story.progress_statuses[:in_progress]
+      stat_after_change = Story.progress_statuses[:in_progress]
     elsif self.in_progress?
-      stat_afer_change = Story.progress_statuses[:iced]
+      stat_after_change = Story.progress_statuses[:iced]
     end
 
-    cur_upper_story            = Story.find_by(importance: self.id)
+    cur_upper_story            = Story.find_by(project_id: self.project_id, importance: self.id)
     cur_upper_story.importance = self.importance if cur_upper_story.present?
 
     # 自身を最下位に追加するため、変更後ステータスで現在最下位のストーリーを更新する
-    aft_upper_story            = Story.find_by(importance: LOWEST, progress_status: stat_afer_change)
+    aft_upper_story            = Story.find_by(project_id: self.project_id, importance: LOWEST, progress_status: stat_after_change)
     aft_upper_story.importance = self.id if aft_upper_story.present?
 
     Story.transaction do
-      self.update!(progress_status: stat_afer_change, importance: LOWEST)
+      self.update!(progress_status: stat_after_change, importance: LOWEST)
       cur_upper_story.save! if cur_upper_story.present?
       aft_upper_story.save! if aft_upper_story.present?
     end
@@ -83,6 +85,21 @@ class Story < ApplicationRecord
     return false
   end
 
+  # ワークフローを次の状態にする
+  def update_workflow_to_next
+    case
+    when self.start?
+      self.finish!
+    when self.finish?
+      self.accept!
+    when self.accept?
+      self.completed!
+    when self.completed?
+      # through
+    else
+      self.start!
+    end
+  end
 
   class << self
 

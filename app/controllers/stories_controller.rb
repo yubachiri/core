@@ -18,6 +18,7 @@ class StoriesController < ApplicationController
     new_story                 = @project.stories.new(story_params)
     new_story.point           = new_story.point.to_i
     new_story.progress_status = Story.progress_statuses[:iced]
+    new_story.workflow        = Story.workflows[:start]
 
     if new_story.create_and_update_importance
       flash[:success] = "ストーリーを追加しました。"
@@ -49,8 +50,18 @@ class StoriesController < ApplicationController
 
   # ストーリーの進行状況ステータスを更新する
   def update_status
+    authorize @project, :update?
     target_story = Story.find(params[:id])
     target_story.update_status_to_other
+
+    redirect_to project_path(@project)
+  end
+
+  # ストーリーのワークフローを次の状態にする
+  def update_workflow
+    authorize @project, :update?
+    target_story = Story.find(params[:id])
+    target_story.update_workflow_to_next
 
     redirect_to project_path(@project)
   end

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :stories, only: [:new, :create, :index, :show, :update] do
       member do
         patch 'update_status'
+        patch 'update_workflow'
       end
     end
     resources :project_members, only: [:new, :create, :destroy] do

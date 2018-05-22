@@ -24,5 +24,15 @@ FactoryGirl.define do
         )
       end
     end
+    trait :with_project_as_nomaluser do
+      after(:create) do |user|
+        user.project_members << FactoryGirl.create(
+          :project_member,
+          user:     user,
+          project: FactoryGirl.create(:project, user: user),
+          admin_flg: false
+        )
+      end
+    end
   end
 end

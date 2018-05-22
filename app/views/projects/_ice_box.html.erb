@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                       <%= label_tag os.id, 'point(number only)', class: 'edit-label', id: 'point-label' %>
-                      <%= text_field_tag "#{os.id}[point]", os.point, class: 'input-sm' %>
+                      <%= text_field_tag "#{os.id}[point]", os.point, class: 'input-sm', maxlength: 3 %>
                     </div>
                     <%= submit_tag '編集確定', class: 'btn btn-primary edit-btn btn-block' %>
                   <% end %>

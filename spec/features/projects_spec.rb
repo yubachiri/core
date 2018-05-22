@@ -42,9 +42,9 @@ RSpec.feature "Projects", type: :feature do
         click_on 'メンバー招待'
         fill_in :search, with: other_user.email
         find_button('招待').click
-        sleep 2
+        sleep 1
         find_button('確定').click
-        sleep 2
+        sleep 1
       }.to change(ProjectMember, :count).by(1)
       expect(page).to have_css 'a', text: other_user.name
     end

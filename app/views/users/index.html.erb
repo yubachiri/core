@@ -1,0 +1,30 @@
+<% provide(:title, @project.name) %>
+<% provide(:header, render('shared/project_header')) %>
+<div class="col-xs-2" id="sidebar">
+  <%= render 'shared/sidebar' %>
+</div>
+<div class="col-xs-10" id="project-main">
+  <div class="col-xs-8">
+    <h1><%= "#{@project.name} / 参加メンバー一覧" %></h1>
+    <div class="right">
+      <%= link_to 'メンバー招待', new_project_project_member_path(@project), class: 'btn btn-primary', id: 'invite-button' %>
+    </div>
+    <hr>
+  </div>
+  <div class="col-xs-10 ">
+    <div class="list-group" id="member-list">
+      <% @participants.each do |p| %>
+        <div class="dropdown list-group-item">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <%= "#{p.name}" %> <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a><%= "#{p.name}" %></a></li>
+            <li class="divider"></li>
+            <li><%= link_to "プロジェクトから外す", project_project_member_path(@project.id, p.id), method: 'delete' %></li>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

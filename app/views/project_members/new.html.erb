@@ -1,0 +1,16 @@
+<% provide(:title, "invite new member to #{@project.name}") %>
+<% provide(:header, render('shared/project_header')) %>
+
+<div class="col-md-6 col-md-offset-3">
+  <h1>メンバー招待</h1>
+  <hr>
+  <p>メールアドレスを入力</p>
+  <div id="confirm-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+  <%= form_tag confirm_project_project_members_path, :method => 'post', remote: true do %>
+    <p>
+      <%= text_field_tag :search, params[:search], required: true %>
+      <%= submit_tag "招待", :name => nil, remote:true %>
+    </p>
+    <%= hidden_field_tag :project_id, @project.id %>
+  <% end %>
+</div>

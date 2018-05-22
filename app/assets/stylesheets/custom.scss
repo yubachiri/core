@@ -1,0 +1,187 @@
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* メイン */
+
+body {
+  margin-top: 50px;
+}
+
+#wrapper {
+  padding-left: 0;
+}
+
+#page-wrapper {
+  width: 100%;
+  background-color: white;
+}
+
+div {
+  position: relative;
+  overflow-wrap: break-word;
+  #project-main {
+    margin-top: 10px;
+    margin-left: 215px;
+  }
+  #backlog {
+    margin-top: 10px;
+    margin-left: 215px;
+  }
+  #icebox {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+  #icebox-under-middle{
+    margin-left: 215px;
+  }
+  .wrap-project-showpage {
+    margin-left: 10px;
+  }
+  .right {
+    text-align: right;
+  }
+  #member-list {
+    width: 50%;
+  }
+  .alert {
+    margin-bottom: 0px;
+  }
+}
+
+a.btn#invite-button {
+  padding: 5px 50px 5px 50px;
+}
+
+/*フォーム系*/
+
+div {
+  #point-label, #point {
+    display: inline;
+  }
+  #point-label {
+    width: 120px;
+  }
+  #point {
+    border: solid 1px #ccc;
+  }
+  #new-member-confirm {
+    padding: 5%;
+    h2 {
+      margin: 10px;
+    }
+    .modal-content {
+      padding: 5% 10%;
+    }
+  }
+  #newproject-input-modal {
+    padding: 5%;
+    .modal-content {
+      padding: 5% 10%;
+      padding-bottom: 10%;
+
+    }
+  }
+  .new-project {
+    .btn {
+      padding: 3px 12px;
+    }
+  }
+  .to-backlog-btn{
+    position: relative;
+    bottom: 6px;
+  }
+  .to-icebox-btn{
+    margin-top: 3px;
+    margin-right: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+}
+
+.edit-btn {
+  padding: 4px 20px 4px 20px;
+  margin: 3px 0px 3px 0px;
+}
+
+#workflow-btn{
+  position: relative;
+  bottom: 9px;
+}
+
+.edit-label {
+  font-size: 18px;
+  margin: 10px 0px 5px 0px;
+}
+
+/* ヘッダ内容 */
+nav {
+
+  #logo {
+    font-size: 2em;
+    padding-left: 2%;
+  }
+
+  .navbar-right {
+    padding-right: 2%;
+  }
+}
+
+.navbar-nav > li > .dropdown-menu {
+  margin-top: 10px;
+}
+
+.top-nav > li {
+  display: inline-block;
+  float: left;
+}
+
+.top-nav > li > a {
+  padding-top: 20px;
+  padding-bottom: 0px;
+  line-height: 10px;
+  color: #fff;
+}
+
+.top-nav > .open > a,
+.top-nav > .open > a:focus,
+.top-nav > .open > a:hover,
+.top-nav > li > a:focus,
+.top-nav > li > a:hover {
+  color: #fff;
+  background-color: #1a242f;
+}
+
+/* サイドバー */
+
+div#sidebar {
+  position: fixed;
+  width: 210px;
+  font-size: 13px;
+  padding-left: 0px;
+  padding-right: 0px;
+  background-color: #222;
+  border-color: #090909;
+}
+
+.nav-sidebar {
+  height: 100vh;
+  li {
+    border-bottom: 1px solid #5f6e7d;
+    background-color: transparent;
+    height: 60px;
+    a, c {
+      color: #9d9d9d;
+      display: table-cell;
+      vertical-align: middle;
+      height: 60px;
+      width: 210px;
+    }
+    c {
+      color: white;
+      padding-left: 15px;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<div class="modal-dialog" id="new-member-confirm">
+  <div class="modal-content">
+    <h2>招待確認</h2>
+    <hr>
+    <%= form_tag project_project_members_path, :method => 'post' do %>
+      <p><c>プロジェクト名 : </c><%= label_tag :project_name, @project.name %></p>
+      <p><c>メンバー名 : </c><%= label_tag :name, @invited_member.name %></p>
+      <p><c>メールアドレス : </c><%= label_tag :email, @invited_member.email %></p>
+
+      <%= hidden_field_tag :project_id, @project.id %>
+      <%= hidden_field_tag :member_id, @invited_member.id %>
+      <%= link_to '戻る', :back, class: 'btn btn-default' %>
+      <%= submit_tag "確定", :name => nil, class: 'btn btn-default' %>
+    <% end %>
+  </div>
+</div>

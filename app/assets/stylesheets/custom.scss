@@ -29,10 +29,12 @@ div {
   #backlog {
     margin-top: 10px;
     margin-left: 215px;
+    z-index: 7;
   }
   #icebox {
     margin-top: 10px;
     margin-left: 10px;
+    z-index: 7;
   }
   #icebox-under-middle{
     margin-left: 215px;
@@ -48,6 +50,13 @@ div {
   }
   .alert {
     margin-bottom: 0px;
+  }
+  #velocity-update-form{
+    position: relative;
+    width: 120px;
+    height: 40px;
+    margin: 10px 20px 10px 20px;
+    z-index: auto;
   }
 }
 
@@ -116,6 +125,12 @@ div {
   margin: 10px 0px 5px 0px;
 }
 
+ul{
+  #velocity-update{
+    margin-left: 45px;
+  }
+}
+
 /* ヘッダ内容 */
 nav {
 
@@ -164,6 +179,7 @@ div#sidebar {
   padding-right: 0px;
   background-color: #222;
   border-color: #090909;
+  z-index: 10;
 }
 
 .nav-sidebar {

@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   resources :projects, only: [:index, :new, :create, :show] do
+    member do
+      patch 'update_velocity'
+    end
     resources :users, only: [:index]
     resources :stories, only: [:new, :create, :index, :show, :update] do
       member do

@@ -30,7 +30,6 @@
 /config/master.key
 
 # Ignore other unneeded files.
-database.yml
 doc/
 *.swp
 *~
@@ -41,3 +40,4 @@ doc/
 .ruby-*
 .secret
 vendor/
+.env

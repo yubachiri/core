@@ -32,6 +32,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_girl_rails', '~> 3.0'
   gem 'rspec-rails', '~> 3.6.0'
+  gem 'dotenv-rails'
 end
 
 group :development do

@@ -34,7 +34,7 @@
                     <div class="form-group">
                       <%= label_tag ps.id, 'story title', class: 'edit-label' %>
 
-                      <%= submit_tag '編集確定', class: 'btn btn-primary pull-right edit-btn' %>
+                      <%= submit_tag '編集確定', class: 'btn btn-primary pull-right edit-btn', id: "#{ps.id}_edit_complete" %>
 
                       <%= link_to 'アイスボックスへ', update_status_project_story_path(@project, ps.id), class: 'btn btn-primary to-icebox-btn input-sm pull-right', id: "#{ps.id}_to_icebox", method: 'patch' %>
 
@@ -52,7 +52,7 @@
                       <%= label_tag ps.id, 'point(number only)', class: 'edit-label', id: 'point-label' %>
                       <%= text_field_tag "#{ps.id}[point]", ps.point, class: 'input-sm', maxlength: 3 %>
                     </div>
-                    <%= submit_tag '編集確定', class: 'btn btn-primary edit-btn btn-block' %>
+                    <%= submit_tag '編集確定', class: 'btn btn-primary edit-btn btn-block', id: "#{ps.id}_edit_complete_main" %>
                   <% end %>
                 </li>
               </ul>

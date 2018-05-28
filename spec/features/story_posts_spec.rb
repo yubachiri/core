@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature "StoryPosts", type: :feature do
-  LOWEST = -1
+RSpec.feature "StoryPosts", type: :feature, focus: true do
+  LOWEST = 0
   ICE_BOX = 'div#icebox'
   include_context "project setup"
 
@@ -52,7 +52,7 @@ RSpec.feature "StoryPosts", type: :feature do
         click_on story.title
         fill_in "#{story.id}_title", with: 'edited title'
         fill_in "#{story.id}_description", with: 'edited description'
-        select "保留", from: "#{story.id}_importance_#{story.importance}"
+        select "保留", from: "#{story.id}_importance"
         fill_in "#{story.id}_point", with: '5'
         first(:button, '編集確定').click
         click_on 'edited title'
@@ -76,7 +76,7 @@ RSpec.feature "StoryPosts", type: :feature do
       click_on story_second.title
       fill_in "#{story_second.id}_title", with: 'edited title'
       fill_in "#{story_second.id}_description", with: 'edited description'
-      select story_third.title, from: "#{story_second.id}_importance_#{story_second.importance}"
+      select story_third.title, from: "#{story_second.id}_importance"
       first(:button, '編集確定').click
 
       visit project_path(project)
@@ -100,7 +100,7 @@ RSpec.feature "StoryPosts", type: :feature do
       click_on story.title
       fill_in "#{story.id}_title", with: 'edited title'
       fill_in "#{story.id}_description", with: 'edited description'
-      select story.title, from: "#{story.id}_importance_#{story.importance}"
+      select story.title, from: "#{story.id}_importance"
       first(:button, '編集確定').click
       click_on 'edited title'
       expect(page).to have_content 'edited title'
@@ -116,7 +116,7 @@ RSpec.feature "StoryPosts", type: :feature do
         click_on story.title
         fill_in "#{story.id}_title", with: 'edited title'
         fill_in "#{story.id}_description", with: 'edited description'
-        select other_story.title, from: "#{story.id}_importance_#{story.importance}"
+        select other_story.title, from: "#{story.id}_importance"
         first(:button, '編集確定').click
         click_on 'edited title'
         expect(page).to have_content 'edited title'
@@ -132,7 +132,7 @@ RSpec.feature "StoryPosts", type: :feature do
         click_on story.title
         fill_in "#{story.id}_title", with: 'edited title'
         fill_in "#{story.id}_description", with: 'edited description'
-        select "保留", from: "#{story.id}_importance_#{story.importance}"
+        select "保留", from: "#{story.id}_importance"
         first(:button, '編集確定').click
         click_on 'edited title'
         expect(page).to have_content 'edited title'
@@ -165,7 +165,7 @@ RSpec.feature "StoryPosts", type: :feature do
         click_on other_story.title
         fill_in "#{other_story.id}_title", with: 'edited title'
         fill_in "#{other_story.id}_description", with: 'edited description'
-        select "保留", from: "#{other_story.id}_importance_#{other_story.importance}"
+        select "保留", from: "#{other_story.id}_importance"
         first(:button, '編集確定').click
         click_on 'edited title'
         expect(page).to have_content 'edited title'

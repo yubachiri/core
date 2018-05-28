@@ -32,18 +32,22 @@ class ProjectsController < ApplicationController
     if @ordered_iced_stories.count.zero?
       @ordered_iced_stories = nil
     else
-      @select_importance = @ordered_iced_stories.clone << Story.new(id: Story::LOWEST, title: '保留')
+      @select_importance = @ordered_iced_stories.clone
+      # << Story.new(id: Story::LOWEST, title: '保留')
     end
     if @ordered_in_progress_stories.count.zero?
       @ordered_in_progress_stories = nil
     else
-      @in_pr_select_importance = @ordered_in_progress_stories.clone << Story.new(id: Story::LOWEST, title: '保留')
+      @in_pr_select_importance = @ordered_in_progress_stories.clone
+      # << Story.new(id: Story::LOWEST, title: '保留')
     end
   end
 
   def update_velocity
     @project = Project.find(params[:id])
     authorize @project, :update?
+
+    velocity = params[:velocity]
 
     redirect_to project_path(@project)
   end

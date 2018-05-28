@@ -45,11 +45,9 @@ class Story < ApplicationRecord
 
     # 変更後ステータスをもつストーリーの中で重要度が最下位のストーリーを取得する
     bottom_story = project.stories
-                     .where([
-                              "importance = ? and progress_status = ?",
-                              project.stories.minimum('importance'),
-                              "#{stat_after_change}"
-                            ])
+                     .where(["importance = ? and progress_status = ?",
+                             project.stories.minimum('importance'),
+                             stat_after_change])
                      .order("importance")
                      .first
     bottom_story.calc_importance project, self.id if bottom_story.present?
@@ -89,6 +87,7 @@ class Story < ApplicationRecord
 
     project_stories = project.stories.where("progress_status = ?", which_area).order('importance desc')
 
+    # 下位・上位ストーリーを取得する
     lower_story = project_stories.find_by(id: lower_story_id)
     if lower_story.present? && project_stories.find_index(lower_story) > 0
       upper_story = project_stories[project_stories.find_index(lower_story) - 1]
@@ -118,20 +117,18 @@ class Story < ApplicationRecord
 
     # 引数のプロジェクトのicedストーリーを重要度順の配列で返す
     def make_iced_stories_array(project)
-      @ordered_iced_stories = project.stories.where(
-        "progress_status = ?",
-        Story.progress_statuses[:iced]).order("importance desc"
-      )
+      @ordered_iced_stories = project.stories
+                                .where("progress_status = ?",
+                                       Story.progress_statuses[:iced])
+                                .order("importance desc")
     end
 
     # 引数のプロジェクトのin_progressストーリーを重要度順の配列で返す
     def make_in_progress_stories_array(project)
-
-      @ordered_iced_stories = project.stories.where(
-        "progress_status = ?",
-        Story.progress_statuses[:in_progress]
-      ).order("importance desc")
-
+      @ordered_iced_stories = project.stories
+                                .where("progress_status = ?",
+                                       Story.progress_statuses[:in_progress])
+                                .order("importance desc")
     end
 
   end

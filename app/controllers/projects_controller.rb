@@ -12,10 +12,12 @@ class ProjectsController < ApplicationController
 
   def create
     new_project = current_user.projects.build(name: params[:project_name])
+
     if new_project.save
       new_project.project_members.create(
         user_id:   new_project.user_id,
-        admin_flg: true)
+        admin_flg: true
+      )
       flash[:success] = "プロジェクトを作成しました。"
     else
       flash[:danger] = "エラーが発生しました。"
@@ -33,13 +35,11 @@ class ProjectsController < ApplicationController
       @ordered_iced_stories = nil
     else
       @select_importance = @ordered_iced_stories.clone
-      # << Story.new(id: Story::LOWEST, title: '保留')
     end
     if @ordered_in_progress_stories.count.zero?
       @ordered_in_progress_stories = nil
     else
       @in_pr_select_importance = @ordered_in_progress_stories.clone
-      # << Story.new(id: Story::LOWEST, title: '保留')
     end
   end
 

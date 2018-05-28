@@ -87,8 +87,6 @@ class Story < ApplicationRecord
 
   def calc_importance(project, lower_story_id, which_area = Story.progress_statuses[self.progress_status])
 
-    puts "calc 開始"
-
     project_stories = project.stories.where("progress_status = ?", which_area).order('importance desc')
 
     lower_story = project_stories.find_by(id: lower_story_id)
@@ -96,17 +94,11 @@ class Story < ApplicationRecord
       upper_story = project_stories[project_stories.find_index(lower_story) - 1]
     end
 
-    puts lower_story.id if lower_story.present?
-    puts upper_story.id if upper_story.present?
-
     if upper_story.present?
-      puts "upperあり"
       self.importance = (lower_story.importance.to_f + upper_story.importance.to_f) / 2
     elsif lower_story.present?
-      puts "lowerあり"
       self.importance = lower_story.importance + 1
     else
-      puts "何もなし"
       if project_stories.present?
         if project_stories.count >= 2
           lowest_story           = project_stories.last

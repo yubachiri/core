@@ -8,59 +8,34 @@ class Story < ApplicationRecord
   # ワークフロー管理
   enum workflow: [:start, :finish, :accept, :completed]
   # 重要度度最下位
-  LOWEST = -1
+  LOWEST = 0
 
   # 重要度設定をし、モデルを新規登録する
-  def create_and_update_importance
-    # 選択したストーリーの上位に設定されているストーリーを取得する
-    upper_story = Story.find_by(importance: self.importance, progress_status: Story.progress_statuses[:iced], project_id: self.project_id)
-    Story.transaction do
-      self.save!
-      upper_story.update!(importance: self.id) if upper_story.present?
-      return true
-    end
-  rescue => e
-    puts e.message
-    return false
+  def create_and_update_importance(lower_story_id)
+    project        = Project.find(self.project_id)
+
+    lower_story_id = 0 if lower_story_id.nil?
+
+    self.calc_importance project, lower_story_id, Story.progress_statuses[:iced]
+    self.save
+
   end
 
   # 自身と上位優先度の重要度を設定し、モデルを更新する
-  def save_and_update_importance(title, description, importance, point, progress_status)
-    self.title           = title
-    self.description     = description
-    self.point           = point
-    self.progress_status = progress_status
+  def save_and_update_importance(new_story_params, lower_story_id)
+    self.title       = new_story_params[:title]
+    self.description = new_story_params[:description]
+    self.point       = new_story_params[:point]
+    lower_story_id   = 0 if lower_story_id.nil?
 
-    # 重要度が変更されていなければ自身をupdateしreturnする
-    if (self.importance.to_i == importance.to_i) || (self.importance.to_i == LOWEST && self.id == importance.to_i)
-      return self.save
-    end
-
-    # 現在の自身の上位ストーリー
-    cur_upper_story            = Story.find_by(importance: self.id, project_id: self.project_id)
-    cur_upper_story.importance = self.importance if cur_upper_story.present?
-
-    # 編集後の自身の上位ストーリー
-    aft_upper_story            = Story.find_by(importance: importance, project_id: self.project_id)
-    aft_upper_story.importance = self.id if aft_upper_story.present?
-
-    if self.id != importance.to_i
-      self.importance = importance
-    end
-
-    Story.transaction do
-      self.save!
-      cur_upper_story.save! if cur_upper_story.present?
-      aft_upper_story.save! if aft_upper_story.present?
-    end
-    return true
-  rescue => e
-    puts e.message
-    return false
+    self.calc_importance project, lower_story_id
+    self.save
   end
 
   # アイス/バックを切り替える
   def update_status_to_other
+
+    project = Project.find(self.project_id)
 
     if self.iced?
       stat_after_change = Story.progress_statuses[:in_progress]
@@ -68,21 +43,29 @@ class Story < ApplicationRecord
       stat_after_change = Story.progress_statuses[:iced]
     end
 
-    cur_upper_story            = Story.find_by(project_id: self.project_id, importance: self.id)
-    cur_upper_story.importance = self.importance if cur_upper_story.present?
+    # 変更後ステータスをもつストーリーの中で重要度が最下位のストーリーを取得する
+    bottom_story = project.stories
+                     .where([
+                              "importance = ? and progress_status = ?",
+                              project.stories.minimum('importance'),
+                              "#{stat_after_change}"
+                            ])
+                     .order("importance")
+                     .first
+    bottom_story.calc_importance project, self.id if bottom_story.present?
 
-    # 自身を最下位に追加するため、変更後ステータスで現在最下位のストーリーを更新する
-    aft_upper_story            = Story.find_by(project_id: self.project_id, importance: LOWEST, progress_status: stat_after_change)
-    aft_upper_story.importance = self.id if aft_upper_story.present?
+    self.calc_importance project, self.id, stat_after_change
+    self.progress_status = stat_after_change
 
     Story.transaction do
-      self.update!(progress_status: stat_after_change, importance: LOWEST)
-      cur_upper_story.save! if cur_upper_story.present?
-      aft_upper_story.save! if aft_upper_story.present?
+      bottom_story.save! if bottom_story.present?
+      self.save!
+      return true
     end
   rescue => e
     puts e.message
     return false
+
   end
 
   # ワークフローを次の状態にする
@@ -101,36 +84,64 @@ class Story < ApplicationRecord
     end
   end
 
+
+  def calc_importance(project, lower_story_id, which_area = Story.progress_statuses[self.progress_status])
+
+    puts "calc 開始"
+
+    project_stories = project.stories.where("progress_status = ?", which_area).order('importance desc')
+
+    lower_story = project_stories.find_by(id: lower_story_id)
+    if lower_story.present? && project_stories.find_index(lower_story) > 0
+      upper_story = project_stories[project_stories.find_index(lower_story) - 1]
+    end
+
+    puts lower_story.id if lower_story.present?
+    puts upper_story.id if upper_story.present?
+
+    if upper_story.present?
+      puts "upperあり"
+      self.importance = (lower_story.importance.to_f + upper_story.importance.to_f) / 2
+    elsif lower_story.present?
+      puts "lowerあり"
+      self.importance = lower_story.importance + 1
+    else
+      puts "何もなし"
+      if project_stories.present?
+        if project_stories.count >= 2
+          lowest_story           = project_stories.last
+          second_from_last_story = project_stories[project_stories.find_index(lowest_story) - 1]
+          average_of_importance  = (lowest_story.importance.to_f + second_from_last_story.importance.to_f) / 2
+          lowest_story.update(importance: average_of_importance)
+        else
+          project_stories.last.update(importance: 1)
+        end
+      end
+      self.importance = LOWEST
+    end
+
+  end
+
   class << self
 
     # 引数のプロジェクトのicedストーリーを重要度順の配列で返す
     def make_iced_stories_array(project)
-      @ordered_iced_stories = Array.new()
-      # importanceが-1となっているストーリーが最も優先度が低い
-      if last_story = project.stories.find_by(importance: LOWEST, progress_status: Story.progress_statuses[:iced])
-        @ordered_iced_stories << last_story
-
-        until @ordered_iced_stories.count == project.stories.where(progress_status: Story.progress_statuses[:iced]).count
-          # 配列の先頭のidでimportanceを検索することで、一つ上位の優先度となるストーリーを取得し、
-          # 配列の先頭に追加する
-          @ordered_iced_stories.unshift project.stories.find_by(importance: @ordered_iced_stories.first.id)
-        end
-      end
-      @ordered_iced_stories
+      @ordered_iced_stories = project.stories.where(
+        "progress_status = ?",
+        Story.progress_statuses[:iced]).order("importance desc"
+      )
     end
 
     # 引数のプロジェクトのin_progressストーリーを重要度順の配列で返す
     def make_in_progress_stories_array(project)
-      @ordered_in_progress_stories = Array.new()
-      if last_story = project.stories.find_by(importance: LOWEST, progress_status: Story.progress_statuses[:in_progress])
-        @ordered_in_progress_stories << last_story
 
-        until @ordered_in_progress_stories.count == project.stories.where(progress_status: Story.progress_statuses[:in_progress]).count
-          @ordered_in_progress_stories.unshift project.stories.find_by(importance: @ordered_in_progress_stories.first.id)
-        end
-      end
-      @ordered_in_progress_stories
+      @ordered_iced_stories = project.stories.where(
+        "progress_status = ?",
+        Story.progress_statuses[:in_progress]
+      ).order("importance desc")
+
     end
+
   end
 
 end

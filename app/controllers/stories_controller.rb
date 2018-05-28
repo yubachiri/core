@@ -8,19 +8,18 @@ class StoriesController < ApplicationController
     authorize @project, :new_story?
 
     @ordered_iced_stories = Story.make_iced_stories_array @project
-    # ストーリー配列の末尾に、そのストーリーの優先度を最低にするための選択肢を追加する
-    @ordered_iced_stories << Story.new(id: Story::LOWEST, title: '保留')
   end
 
   def create
     authorize @project, :new_story?
 
-    new_story                 = @project.stories.new(story_params)
-    new_story.point           = new_story.point.to_i
+    new_story       = @project.stories.new(story_params)
+    new_story.point = new_story.point.to_i
+    # 進行状況・ワークフローはアイスボックス・startとする
     new_story.progress_status = Story.progress_statuses[:iced]
     new_story.workflow        = Story.workflows[:start]
 
-    if new_story.create_and_update_importance
+    if new_story.create_and_update_importance(new_story.importance)
       flash[:success] = "ストーリーを追加しました。"
       redirect_to project_path(@project)
     else
@@ -35,11 +34,11 @@ class StoriesController < ApplicationController
   def update
     authorize @project, :update_story?
 
-    story_id       = params[:id]
+    story_id = params[:id]
     new_story      = params[story_id]
     original_story = Story.find(story_id)
 
-    if original_story.save_and_update_importance(new_story[:title], new_story[:description], new_story[:importance][original_story.importance.to_s], new_story[:point], original_story.progress_status)
+    if original_story.save_and_update_importance(new_story, new_story[:importance])
       flash[:success] = "ストーリーを更新しました。"
     else
       flash[:danger] = "エラーが発生しました。"
@@ -48,7 +47,6 @@ class StoriesController < ApplicationController
     redirect_to project_path(@project)
   end
 
-  # ストーリーの進行状況ステータスを更新する
   def update_status
     authorize @project, :update?
     target_story = Story.find(params[:id])

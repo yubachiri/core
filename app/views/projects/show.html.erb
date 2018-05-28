@@ -1,0 +1,15 @@
+<% provide(:title, @project.name) %>
+<% provide(:header, render('shared/project_header')) %>
+<div class="col-xs-2" id="sidebar">
+  <%= render 'shared/sidebar' %>
+</div>
+<div class="col-xs-5 well" id="backlog">
+  <%= render 'projects/back_log' %>
+</div>
+<!--画面サイズによって表示箇所を制御する-->
+<div class="col-xs-5 visible-lg well" id="icebox">
+  <%= render 'projects/ice_box' %>
+</div>
+<div class="col-xs-5 hidden-lg well" id="icebox-under-middle">
+  <%= render 'projects/ice_box' %>
+</div>

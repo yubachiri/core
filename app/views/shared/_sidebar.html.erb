@@ -1,0 +1,19 @@
+<ul class="nav nav-sidebar">
+  <li>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="velocity">
+      velocity: <%= "#{@project.velocity}" %>
+    </a>
+    <ul class="dropdown-menu" id="velocity-update">
+      <div id="velocity-update-form">
+        velocityを変更:
+        <%= form_tag update_velocity_project_path(@project), method: 'patch' do %>
+        <%= text_field_tag :velocity, @project.velocity, size: 3 %>
+        <%= submit_tag '適用', name: 'apply-btn' %>
+        <% end %>
+      </div>
+    </ul>
+  </li>
+  <li><%= link_to "#{@project.name} / home", project_path(@project) %></li>
+  <li class="active"><%= link_to '新規ストーリー', new_project_story_path(@project) %></li>
+  <li><%= link_to 'メンバー', project_users_path(@project) %></li>
+</ul>

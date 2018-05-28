@@ -1,0 +1,17 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <ul id="logo" class="nav navbar-nav navbar-left top-nav">
+    <li>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <%= "#{@project.name}" %> <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li><%= link_to "#{@project.name} / home", project_path(@project) %></li>
+        <li><%= link_to "新規ストーリー", new_project_story_path(@project) %></li>
+        <li><%= link_to "メンバー", project_users_url(@project) %></li>
+      </ul>
+    </li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right top-nav">
+    <%= render 'shared/user_menu' %>
+  </ul>
+</nav>

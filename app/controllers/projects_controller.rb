@@ -31,16 +31,6 @@ class ProjectsController < ApplicationController
     authorize @project
     @ordered_iced_stories        = Story.make_iced_stories_array @project
     @ordered_in_progress_stories = Story.make_in_progress_stories_array @project
-    if @ordered_iced_stories.count.zero?
-      @ordered_iced_stories = nil
-    else
-      @select_importance = @ordered_iced_stories.clone
-    end
-    if @ordered_in_progress_stories.count.zero?
-      @ordered_in_progress_stories = nil
-    else
-      @in_pr_select_importance = @ordered_in_progress_stories.clone
-    end
   end
 
   def update_velocity

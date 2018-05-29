@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                       <%= label_tag os.id, 'importance', class: 'edit-label' %>
-                      <%= collection_select "#{os.id}", 'importance', @select_importance, :id, :title, :prompt => "保留" %>
+                      <%= collection_select "#{os.id}", 'importance', @ordered_iced_stories, :id, :title, :prompt => "保留" %>
                     </div>
                     <div class="form-group">
                       <%= label_tag os.id, 'point(number only)', class: 'edit-label', id: 'point-label' %>
